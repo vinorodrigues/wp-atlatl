@@ -1,15 +1,16 @@
 <?php
 
-if (!defined('THEMEENGINE'))
-	define('THEMEENGINE', 'f6');
-
-if ( !defined('THEMEPATH') )
-	define('THEMEPATH', dirname(__FILE__).'/');
+if ( !defined('THEME_PATH') )
+	define('THEME_PATH', dirname(__FILE__).'/');
 
 if ( !defined('DOTMIN') )
 	define('DOTMIN', (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min');
 
 include_once get_theme_file_path('config.php');
+
+if (!defined('THEME_ENGINE'))
+	define('THEME_ENGINE', 'foundation6');
+
 include_once 'lib/tha-theme-hooks.php';
 
 if (!function_exists('get_theme_file_uri')) {
@@ -28,12 +29,13 @@ if (!function_exists('get_theme_file_uri')) {
 	}
 }
 
-function wpf6_init() {
-	include_once 'engine/' . THEMEENGINE . '/' . THEMEENGINE . '-functions.php';
+function atlatl_init() {
+	include_once 'debug.php';
+	include_once 'on/' . THEME_ENGINE . '/functions.php';
 }
-add_action('init', 'wpf6_init');
+add_action('init', 'atlatl_init');
 
-function wpf6_setup_theme() {
+function atlatl_setup_theme() {
 	add_theme_support( 'tha_hooks', array(
 		'html',
 		'body',
@@ -48,9 +50,9 @@ function wpf6_setup_theme() {
 		'footer',
 		) );
 }
-add_action( 'after_setup_theme', 'wpf6_setup_theme' );
+add_action( 'after_setup_theme', 'atlatl_setup_theme' );
 
-function wpf6_scripts() {
+function atlatl_scripts() {
 	$th_ver = wp_get_theme()->version;
 
 	// CSS
@@ -82,12 +84,12 @@ function wpf6_scripts() {
 	// jQuery
 	$url = '';  // $url = trim( bs4_get_option('jquery_js') );
 	if (empty($url)) {
-		$url = get_theme_file_uri( '/vendor/jquery/js/jquery-' . JQUERY_VERSION . DOTMIN . '.js' );
 		$ver = JQUERY_VERSION;
+		$url = get_theme_file_uri( '/vendor/jquery/js/jquery-' . $ver . DOTMIN . '.js' );
 	} else {
 		$ver = NULL;
 	}
 	wp_enqueue_script( 'jquery', $url, array(), $ver, true );
 
 }
-add_action('wp_enqueue_scripts', 'wpf6_scripts');
+add_action('wp_enqueue_scripts', 'atlatl_scripts');

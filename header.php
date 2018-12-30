@@ -16,7 +16,7 @@ echo '</head>'.PHP_EOL;
 echo '<body ';  body_class();  echo '>'.PHP_EOL;
 tha_body_top();
 
-function wpf6_do_header($class = '') {
+function atlatl_do_header($class = '') {
 	tha_header_before();
 	echo '<header id="header"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_header_top();
@@ -25,7 +25,7 @@ function wpf6_do_header($class = '') {
 	tha_header_after();
 }
 
-function wpf6_do_nav($class = '') {
+function atlatl_do_nav($class = '') {
 	tha_nav_before();
 	echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_nav_top();
@@ -34,8 +34,8 @@ function wpf6_do_nav($class = '') {
 	tha_nav_after();
 }
 
-wpf6_do_header();
-wpf6_do_nav();
+atlatl_do_header();
+atlatl_do_nav();
 
 tha_content_before();
 echo '<main id="content">';
