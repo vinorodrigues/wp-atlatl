@@ -1,3 +1,5 @@
-# wp-foundation6
+# WP-Atlatl
 
-Wordpress Theme wrapping Zurb's Foundation 6
+> A flexable responsive WordPress theme
+
+![WP-Atlatl](screenshot.png "WP-Atlatl")
