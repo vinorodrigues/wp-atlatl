@@ -9,7 +9,7 @@ tha_footer_top();
 tha_footer_bottom();
 echo '</footer>';
 tha_footer_after();
-
 tha_body_bottom();
+wp_footer();
 echo '</body>';
 echo '</html>';

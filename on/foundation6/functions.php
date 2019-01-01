@@ -9,15 +9,17 @@ if ( !defined('FOUNDATION_VERSION') )
 function atlatl_f64_html_before() {
 	echo '<!doctype html>' . PHP_EOL;
 }
+
 add_action('tha_html_before', 'atlatl_f64_html_before', 50, 0);
 
 /**
  * Top of <head>
  */
 function atlatl_f64_head_top() {
-	echo '<meta http-equiv="x-ua-compatible" content="ie=edge" />'.PHP_EOL;
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0" />'.PHP_EOL;
+	echo '<meta http-equiv="x-ua-compatible" content="ie=edge"></meta>'.PHP_EOL;
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"></meta>'.PHP_EOL;
 }
+
 add_action('tha_head_top', 'atlatl_f64_head_top', 50, 0);
 
 /**
@@ -26,6 +28,7 @@ add_action('tha_head_top', 'atlatl_f64_head_top', 50, 0);
 function atlatl_f64_body_top() {
 	echo '<div class="wrapper">';
 }
+
 add_action('tha_body_top', 'atlatl_f64_body_top', 50, 0);
 
 /**
@@ -34,6 +37,7 @@ add_action('tha_body_top', 'atlatl_f64_body_top', 50, 0);
 function atlatl_f64_body_bottom() {
 	echo '</div>';
 }
+
 add_action('tha_body_bottom', 'atlatl_f64_body_bottom', 50, 0);
 
 function atlatl_f64_scripts() {
@@ -63,4 +67,5 @@ function atlatl_f64_scripts() {
 	wp_enqueue_script( 'foundation', $url, array('jquery'), $ver, true );
 
 }
+
 add_action('wp_enqueue_scripts', 'atlatl_f64_scripts');

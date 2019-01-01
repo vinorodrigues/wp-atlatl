@@ -11,8 +11,13 @@ include_once get_theme_file_path('config.php');
 if (!defined('THEME_ENGINE'))
 	define('THEME_ENGINE', 'foundation6');
 
+// config
+include_once 'inc/customizer.php';
+
+// vendors
 include_once 'lib/tha-theme-hooks.php';
 
+// get_theme_file_uri - included in WP 4.7.0+
 if (!function_exists('get_theme_file_uri')) {
 	function get_theme_file_uri( $file = '' ) {
 		$file = ltrim( $file, '/' );
@@ -33,6 +38,7 @@ function atlatl_init() {
 	include_once 'debug.php';
 	include_once 'on/' . THEME_ENGINE . '/functions.php';
 }
+
 add_action('init', 'atlatl_init');
 
 function atlatl_setup_theme() {
@@ -50,6 +56,7 @@ function atlatl_setup_theme() {
 		'footer',
 		) );
 }
+
 add_action( 'after_setup_theme', 'atlatl_setup_theme' );
 
 function atlatl_scripts() {
@@ -86,10 +93,12 @@ function atlatl_scripts() {
 	if (empty($url)) {
 		$ver = JQUERY_VERSION;
 		$url = get_theme_file_uri( '/vendor/jquery/js/jquery-' . $ver . DOTMIN . '.js' );
+		$ver = NULL;  // filename already has version
 	} else {
 		$ver = NULL;
 	}
-	wp_enqueue_script( 'jquery', $url, array(), $ver, true );
+	wp_register_script( 'jquery', $url, array(), $ver, true );
 
 }
+
 add_action('wp_enqueue_scripts', 'atlatl_scripts');
