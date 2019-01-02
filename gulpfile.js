@@ -4,6 +4,7 @@
 
 var gulp = require( 'gulp' );
 var sass = require( 'gulp-sass' );
+sass.compiler = require( 'node-sass' );
 var maps = require( 'gulp-sourcemaps' );
 var cmin = require( 'gulp-cssnano' );
 var imin = require( 'gulp-imagemin' );
@@ -23,7 +24,7 @@ gulp.task( 'sass:css', function(cb) {
 });
 
 gulp.task( 'sass:min', function(cb) {
-    return gulp.src( './css/**/*.css' )
+    return gulp.src( ['./css/**/*.css', '!./css/**/*.min.css'] )
         .pipe( cmin() )
         .pipe( renm( {
         	suffix: '.min'
@@ -76,7 +77,7 @@ gulp.task( 'js', function(cb) {
 
 gulp.task( 'watch', function(cb){
  	gulp.watch( './scss/**/*.scss', gulp.parallel('sass:css') );
- 	gulp.watch( './css/**/*.css', gulp.parallel('sass:min') );
+ 	gulp.watch( ['./css/**/*.css', '!./css/**/*.min.css'], gulp.parallel('sass:min') );
  	gulp.watch( './imgsrc/**/*.+(png|jpg|gif|svg)', gulp.parallel('images') );
  	gulp.watch( ['js/**/*.js', '!js/**/*.min.js'], gulp.parallel('js') );
 });

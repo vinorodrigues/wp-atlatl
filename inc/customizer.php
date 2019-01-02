@@ -19,16 +19,16 @@ class My_Customize_Radio_Control extends WP_Customize_Control {
 
 	public $prefix = '';
 
-	public $suffix = '.png';
+	public $suffix = '.svg';
 
 	public function enqueue() {
-		wp_enqueue_style( 'bootstrap4_customizer', get_template_directory_uri() . '/css/customizer' . DOTMIN . '.css' );
+		wp_enqueue_style( 'atlatl_customizer', get_template_directory_uri() . '/css/customizer' . DOTMIN . '.css' );
 	}
 
 	public function render_content() {
 		if (!is_null($this->choices)) :
 			?>
-			<div class="bs4-cust-radio-ctrl">
+			<div class="atlatl-cust-radio-ctrl">
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php
 				foreach ( $this->choices as $value => $label ) : ?>
@@ -57,7 +57,7 @@ function atlatl_customize_register( $wp_customize ) {
 		'priority' => 35,
 		) );
 
-	$wp_customize->add_setting( 'content_position', array( 'default' => 0 ) );
+	$wp_customize->add_setting( 'content_position', array( 'default' => 'cnt' ) );
 
 	$wp_customize->add_control( new My_Customize_Radio_Control(
 		$wp_customize, 'content_position', array(
@@ -66,9 +66,12 @@ function atlatl_customize_register( $wp_customize ) {
 			'label'    => 'Content Position',
 			'prefix'   => 'cust-cpos-',
 			'choices'  => array(
-				0 => 'Right',
-				1 => 'Center',
-				2 => 'Left',
+				'btm' => 'Whole Top',
+				'dlf' => 'Narrow Left',
+				'slf' => 'Wide Left',
+				'cnt' => 'Centered',
+				'srt' => 'Wide Right',
+				'drt' => 'Narrow Right',
 				) ) ) );
 
 }
