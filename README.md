@@ -1,4 +1,5 @@
-# WP-Atlatl
+WP-Atlatl
+=========
 
 > A flexable responsive WordPress theme
 

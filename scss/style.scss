@@ -1,30 +1,107 @@
 
+// Default Body Class Styles
+// -------------------------
+// .rtl {}
+// .home {}
+// .blog {}
+// .archive {}
+// .date {}
+// .search {}
+// .paged {}
+// .attachment {}
+// .error404 {}
+// .single .postid-(id) {}
+// .attachmentid-(id) {}
+// .attachment-(mime-type) {}
+// .author {}
+// .author-(user_nicename) {}
+// .category {}
+// .category-(slug) {}
+// .tag {}
+// .tag-(slug) {}
+// .page-parent {}
+// .page-child .parent-pageid-(id) {}
+// .page-template .page-template-(template file name) {}
+// .search-results {}
+// .search-no-results {}
+// .logged-in {}
+// .paged-(page number) {}
+// .single-paged-(page number) {}
+// .page-paged-(page number) {}
+// .category-paged-(page number) {}
+// .tag-paged-(page number) {}
+// .date-paged-(page number) {}
+// .author-paged-(page number) {}
+// .search-paged-(page number) {}
+
+// Default Post Styles
+// -------------------
+// .post-id {}
+// .post {}
+// .page {}
+// .attachment {}
+// .sticky {}
+// .hentry {}
+// .category-misc {}
+// .category-example {}
+// .tag-news {}
+// .tag-wordpress {}
+// .tag-markup {}
+
+// Styling content
+// ---------------
+// .alignnone {}
+// .alignleft {}
+// .alignright {}
+// .aligncenter {}
+// img.alignnone {}
+// img.alignleft {}
+// img.alignright {}
+// img.aligncenter {}
+// .wp-caption {}
+// .gallery {}
+// .gallery-caption {}
+// img.size-full {}
+// img.size-large {}
+// img.size-medium {}
+// img.size-thumbnail {}
+// blockquote {}
+// code {}
+// pre {}
+// hr {}
+// del {}
+
+
 // This is a style that relates to different page headers. h1's & h2's
-.entry-title {
-	color: #F00;
-}
+// .entry-title {
+// 	color: #F00;
+// }
 
 // These two styles simply align images to the left and right of an entry
-.alignright {}
-.alignleft {}
+// .alignright {}
+// .alignleft {}
 
 // The entry-content style is applied to the contents of blog posts and static pages
-.entry-content {}
+// .entry-content {}
 
 // The entry utility is a class for a small section at the end of each post that provides context
-.entry-utility {}
+// .entry-utility {}
 
 // Contains the author name, date, and other metadata
-.entry-meta {}
+// .entry-meta {}
 
 // For styling the navigation links at the bottom of your theme
-.navigation {}
+// .navigation {}
 
 // Comments section
-.comments {}
+// .comments {}
 
 // Applies to specific comments
-.comment {}
+// .comment {}
 
 // Target replies to comments
-.children {}
+// .children {}
+
+.hidden {
+	display: none;
+}

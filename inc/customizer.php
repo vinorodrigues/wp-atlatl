@@ -11,7 +11,7 @@ if ( !class_exists( 'WP_Customize_Control' ) )
 /**
  * Adds textarea support to the theme customizer
  */
-class My_Customize_Radio_Control extends WP_Customize_Control {
+class Image_Customize_Radio_Control extends WP_Customize_Control {
 
 	public $type = 'radio';
 
@@ -52,26 +52,78 @@ class My_Customize_Radio_Control extends WP_Customize_Control {
 
 function atlatl_customize_register( $wp_customize ) {
 
+	// Site Identity
+
+	$wp_customize->add_setting( 'logo_width', array( 'default' => '' ) );
+	$wp_customize->add_setting( 'logo_height', array( 'default' => '' ) );
+
+	$wp_customize->add_control( 'logo_width', array(
+		'type'        => 'text',
+		'section'     => 'title_tagline',
+		'label'       => 'Logo Width',
+		'priority'    => 9,
+		'description' => 'Set override logo image width (use valid css/style values)',
+		) );
+
+	$wp_customize->add_control( 'logo_height', array(
+		'type'        => 'text',
+		'section'     => 'title_tagline',
+		'label'       => 'Logo Height',
+		'priority'    => 9,
+		'description' => 'Set override logo image height (can also be a percentage)',
+		) );
+
+	$wp_customize->add_setting( 'logo_placement', array( 'default' => 'lft' ) );
+
+	$wp_customize->add_control( new Image_Customize_Radio_Control(
+		$wp_customize, 'logo_placement', array(
+			'settings' => 'logo_placement',
+			'section'  => 'title_tagline',
+			'label'    => 'Logo Placement',
+			'priority' => 9,
+			'prefix'   => 'cust-logo-',
+			'choices'  => array(
+				'lft' => 'Left',
+				'mid' => 'Middle',
+				'rgt' => 'Right',
+				'nav' => 'Navbar',
+				'off' => 'Disabled',
+				) ) ) );
+
+	// Layout
+
 	$wp_customize->add_section( 'cust_layout', array(
 		'title'    => 'Layout',
 		'priority' => 35,
 		) );
 
+	$wp_customize->add_setting( 'container_width' , array( 'default' => 'cnt' ) );
 	$wp_customize->add_setting( 'content_position', array( 'default' => 'cnt' ) );
 
-	$wp_customize->add_control( new My_Customize_Radio_Control(
+	$wp_customize->add_control( new Image_Customize_Radio_Control(
+		$wp_customize, 'container_width', array(
+			'settings' => 'container_width',
+			'section'  => 'cust_layout',
+			'label'    => 'Container Width',
+			'prefix'   => 'cust-wdth-',
+			'choices'  => array(
+				'cnt' => 'Responsive fixed-width',
+				'fld' => 'Fluid',
+				) ) ) );
+
+	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'content_position', array(
 			'settings' => 'content_position',
 			'section'  => 'cust_layout',
 			'label'    => 'Content Position',
 			'prefix'   => 'cust-cpos-',
 			'choices'  => array(
-				'btm' => 'Whole Top',
-				'dlf' => 'Narrow Left',
-				'slf' => 'Wide Left',
+				'btm' => 'Whole Page',
+				'dlf' => 'Narrow Right',
+				'slf' => 'Wide Right',
 				'cnt' => 'Centered',
-				'srt' => 'Wide Right',
-				'drt' => 'Narrow Right',
+				'srt' => 'Wide Left',
+				'drt' => 'Narrow Left',
 				) ) ) );
 
 }

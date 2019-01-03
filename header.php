@@ -6,10 +6,10 @@ echo '<html ';  language_attributes();  echo '>'.PHP_EOL;
 echo '<head>'.PHP_EOL;
 echo '<meta charset="';  bloginfo('charset');  echo '">'.PHP_EOL;
 tha_head_top();
-echo '<title>';  wp_title();  echo '</title>'.PHP_EOL;
+
+// echo '<title>';  wp_title();  echo '</title>'.PHP_EOL;    // TODO : Add, Generate own title tag
 wp_head();
-echo '<link rel="stylesheet" href="';  bloginfo('stylesheet_url');  echo '">'.PHP_EOL;
-// echo '<link rel="pingback" href="';  bloginfo('pingback_url');  echo '">'.PHP_EOL;
+
 tha_head_bottom();
 echo '</head>'.PHP_EOL;
 
