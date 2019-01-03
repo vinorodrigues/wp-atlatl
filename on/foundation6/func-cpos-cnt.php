@@ -7,9 +7,6 @@
  * Top of <body>
  */
 function atlatl_f6_body_top() {
-//	global $settings;
-//	echo '<pre>'; var_dump($settings); echo '</pre>';
-
 //	echo '<div class="grid-x">';
 }
 

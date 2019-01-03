@@ -3,8 +3,6 @@
 if ( !defined('FOUNDATION_VERSION') )
 	define('FOUNDATION_VERSION', '6.5.1');
 
-global $settings;
-
 // ----------------------------------------------------------------------------
 // ----- HTML -----
 
@@ -30,8 +28,12 @@ add_action('tha_head_top', 'atlatl_f6_head_top', 50, 0);
 // ----------------------------------------------------------------------------
 // ----- Layout -----
 
-include_once 'func-wdth-all.php';
-include_once 'func-cpos-' . $settings['content_position'] . '.php';
+function atlatl_f6_init() {
+	include_once 'func-wdth-all.php';
+	include_once 'func-cpos-' . atlatl_get_setting('content_position') . '.php';
+}
+
+add_action('init', 'atlatl_f6_init', 50);
 
 // ----------------------------------------------------------------------------
 // ----- Scripts -----

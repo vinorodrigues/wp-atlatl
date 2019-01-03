@@ -12,12 +12,23 @@ if (!defined('THEME_ENGINE'))
 	define('THEME_ENGINE', 'foundation6');
 
 // settings
-global $settings;
-$settings = array();
+function atlatl_get_default( $option ) {
+	$defaults = array(
+		'logo_placement' => 'lft',
+		'container_width' => 'cnt',
+		'content_position' => 'cnt',
+		);
+	if ( isset($defaults[$option]) )
+		return $defaults[$option];
+	else
+		return false;
+}
 
-$settings['logo_placement'] = get_theme_mod('logo_placement', 'lft');
-$settings['container_width'] = get_theme_mod('container_width', 'cnt');
-$settings['content_position'] = get_theme_mod('content_position', 'cnt');
+function atlatl_get_setting( $option ) {
+	$value = get_theme_mod( $option );
+	if (false === $value) $value = atlatl_get_default( $option );
+	return $value;
+}
 
 // config
 include_once 'inc/customizer.php';
@@ -66,7 +77,7 @@ function atlatl_init() {
 	include_once 'on/' . THEME_ENGINE . '/functions.php';
 }
 
-add_action('init', 'atlatl_init');
+add_action('init', 'atlatl_init', 20);
 
 function atlatl_setup_theme() {
 

@@ -7,9 +7,7 @@
  * Top of <body>
  */
 function atlatl_f6_wdth_body_top() {
-	global $settings;
-	$wdt = $settings['container_width'];
-	switch ($wdt) {
+	switch ( atlatl_get_setting('container_width') ) {
 		case 'fld':
 			$class = 'grid-container fluid';
 			break;
