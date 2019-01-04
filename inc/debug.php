@@ -3,14 +3,14 @@
 function debug_tha_hook() {
 	$e = new Exception();
 	$trace = explode("\n", $e->getTraceAsString());
-	echo "<pre>❰❰❰❰❰ " . explode(': ', $trace[4])[1] . ' ❱❱❱❱❱</pre>';
+	echo "<!-- " . explode(': ', $trace[4])[1] . ' -->';
 }
 
-// add_action( 'tha_html_before'         , 'debug_tha_hook' );
-// add_action( 'tha_head_top'            , 'debug_tha_hook', 9 );
-// add_action( 'tha_head_bottom'         , 'debug_tha_hook', 99 );
-// add_action( 'tha_body_top'            , 'debug_tha_hook', 9 );
-// add_action( 'tha_body_bottom'         , 'debug_tha_hook', 99 );
+add_action( 'tha_html_before'         , 'debug_tha_hook' );
+add_action( 'tha_head_top'            , 'debug_tha_hook', 9 );
+add_action( 'tha_head_bottom'         , 'debug_tha_hook', 99 );
+add_action( 'tha_body_top'            , 'debug_tha_hook', 9 );
+add_action( 'tha_body_bottom'         , 'debug_tha_hook', 99 );
 add_action( 'tha_header_before'       , 'debug_tha_hook', 9 );
 add_action( 'tha_header_after'        , 'debug_tha_hook', 99 );
 add_action( 'tha_header_top'          , 'debug_tha_hook', 9 );
@@ -55,4 +55,3 @@ function disable_wp_emojicons() {
 }
 
 add_action( 'init', 'disable_wp_emojicons', 999 );
-

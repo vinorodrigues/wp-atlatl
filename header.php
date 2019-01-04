@@ -27,7 +27,7 @@ function atlatl_do_header($class = '') {
 
 function atlatl_do_nav($class = '') {
 	tha_nav_before();
-	echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+	echo '<nav id="navigation"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_nav_top();
 	tha_nav_bottom();
 	echo '</nav>';

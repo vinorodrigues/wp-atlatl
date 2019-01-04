@@ -28,12 +28,12 @@ add_action('tha_head_top', 'atlatl_f6_head_top', 50, 0);
 // ----------------------------------------------------------------------------
 // ----- Layout -----
 
-function atlatl_f6_init() {
-	include_once 'func-wdth-all.php';
-	include_once 'func-cpos-' . atlatl_get_setting('content_position') . '.php';
+function atlatl_f6_wp_loaded() {
+	include_once( 'func-wdth-all.php' );
+	include_once( 'func-cpos-' . atlatl_get_content_position() . '.php' );
 }
 
-add_action('init', 'atlatl_f6_init', 50);
+add_action('wp_loaded', 'atlatl_f6_wp_loaded', 50);
 
 // ----------------------------------------------------------------------------
 // ----- Scripts -----

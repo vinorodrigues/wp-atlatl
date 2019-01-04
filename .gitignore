@@ -4,3 +4,5 @@ node_modules/*
 .sass-cashe/*
 ~*
 ~/*
+.sublime-gulp.*
+wp-atlatl.sublime-workspace

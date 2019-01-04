@@ -52,14 +52,22 @@ class Image_Customize_Radio_Control extends WP_Customize_Control {
 
 function atlatl_customize_register( $wp_customize ) {
 
-	// Site Identity
+	// ----- Site Identity -----
 
-	$wp_customize->add_setting( 'logo_width', array( 'default' => atlatl_get_default( 'logo_width' ) ) );
-	$wp_customize->add_setting( 'logo_height', array( 'default' => atlatl_get_default( 'logo_height' ) ) );
+	$wp_customize->add_setting( 'logo_width', array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'logo_width' )
+		) );
+	$wp_customize->add_setting( 'logo_height', array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'logo_height' )
+		) );
 
 	$wp_customize->add_control( 'logo_width', array(
 		'type'        => 'text',
-		'section'     => 'title_tagline',
+		'section'     => 'title_tagline',  // Site Title & Tagline
 		'label'       => 'Logo Width',
 		'priority'    => 9,
 		'description' => 'Set override logo image width (use valid css/style values)',
@@ -67,18 +75,22 @@ function atlatl_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( 'logo_height', array(
 		'type'        => 'text',
-		'section'     => 'title_tagline',
+		'section'     => 'title_tagline',  // Site Title & Tagline
 		'label'       => 'Logo Height',
 		'priority'    => 9,
 		'description' => 'Set override logo image height (can also be a percentage)',
 		) );
 
-	$wp_customize->add_setting( 'logo_placement', array( 'default' => atlatl_get_default( 'logo_placement' ) ) );
+	$wp_customize->add_setting( 'logo_placement', array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'logo_placement' )
+		) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'logo_placement', array(
 			'settings' => 'logo_placement',
-			'section'  => 'title_tagline',
+			'section'  => 'title_tagline',  // Site Title & Tagline
 			'label'    => 'Logo Placement',
 			'priority' => 9,
 			'prefix'   => 'cust-logo-',
@@ -90,15 +102,23 @@ function atlatl_customize_register( $wp_customize ) {
 				'off' => 'Disabled',
 				) ) ) );
 
-	// Layout
+	// ----- Layout -----
 
 	$wp_customize->add_section( 'cust_layout', array(
 		'title'    => 'Layout',
 		'priority' => 35,
 		) );
 
-	$wp_customize->add_setting( 'container_width' , array( 'default' => atlatl_get_default( 'container_width' ) ) );
-	$wp_customize->add_setting( 'content_position', array( 'default' => atlatl_get_default( 'content_position' ) ) );
+	$wp_customize->add_setting( 'container_width' , array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'container_width' )
+		) );
+	$wp_customize->add_setting( 'content_position', array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'content_position' )
+		) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'container_width', array(
@@ -122,8 +142,8 @@ function atlatl_customize_register( $wp_customize ) {
 				'dlf' => 'Narrow Right',
 				'slf' => 'Wide Right',
 				'cnt' => 'Centered',
-				'srt' => 'Wide Left',
 				'drt' => 'Narrow Left',
+				'srt' => 'Wide Left',
 				) ) ) );
 }
 
