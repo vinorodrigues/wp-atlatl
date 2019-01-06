@@ -66,6 +66,7 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 function atlatl_get_default( $option ) {
 	$defaults = array(
 		'logo_placement' => 'lft',
+		'container_position' => 'pag',
 		'container_width' => 'cnt',
 		'content_position' => 'cnt',
 		);

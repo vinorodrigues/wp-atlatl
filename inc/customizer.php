@@ -109,6 +109,11 @@ function atlatl_customize_register( $wp_customize ) {
 		'priority' => 35,
 		) );
 
+	$wp_customize->add_setting( 'container_position' , array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => atlatl_get_default( 'container_position' )
+		) );
 	$wp_customize->add_setting( 'container_width' , array(
 		'type' => 'theme_mod',
 		'capability' => 'edit_theme_options',
@@ -119,6 +124,17 @@ function atlatl_customize_register( $wp_customize ) {
 		'capability' => 'edit_theme_options',
 		'default' => atlatl_get_default( 'content_position' )
 		) );
+
+	$wp_customize->add_control( new Image_Customize_Radio_Control(
+		$wp_customize, 'container_position', array(
+			'settings' => 'container_position',
+			'section'  => 'cust_layout',
+			'label'    => 'Container Position',
+			'prefix'   => 'cust-cont-',
+			'choices'  => array(
+				'con' => 'Content Only',
+				'pag' => 'Whole Page',
+				) ) ) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'container_width', array(
