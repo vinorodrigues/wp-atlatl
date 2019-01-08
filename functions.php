@@ -15,12 +15,12 @@ if (!defined('THEME_ENGINE'))
 	define('THEME_ENGINE', 'foundation6');
 
 include_once( 'lib/tha-theme-hooks.php' );
+include_once( 'lib/lib-ts/raw-scripts.php' );
+// include_once( 'lib/lib-ts/raw-styles.php' );
 include_once( 'on/' . THEME_ENGINE . '/functions.php' );
+include_once( 'inc/customizer.php' );
 if (defined('WP_DEBUG') && WP_DEBUG)
 	include_once( 'inc/debug.php' );
-include_once( 'inc/customizer.php' );
-
-global $atlatl_sidebar_cnt;  $atlatl_sidebar_cnt = 0;
 
 
 // ----------------------------------------------------------------------------
@@ -46,17 +46,35 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 	function GUID() {
 		if (function_exists('com_create_guid') === true)
 			return trim(com_create_guid(), '{}');
-
-		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
-			mt_rand(0, 65535),
-			mt_rand(0, 65535),
-			mt_rand(0, 65535),
-			mt_rand(16384, 20479),
-			mt_rand(32768, 49151),
-			mt_rand(0, 65535),
-			mt_rand(0, 65535),
-			mt_rand(0, 65535) );
+		else
+			return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
+				mt_rand(0, 65535),
+				mt_rand(0, 65535),
+				mt_rand(0, 65535),
+				mt_rand(16384, 20479),
+				mt_rand(32768, 49151),
+				mt_rand(0, 65535),
+				mt_rand(0, 65535),
+				mt_rand(0, 65535) );
 	}
+}
+
+if (defined('WP_DEBUG') && WP_DEBUG) {
+	function atlatl_wp_debug_body_class( $classes ) {
+		$classes[] = 'WP_DEBUG';
+		return $classes;
+	}
+
+	add_filter( 'body_class','atlatl_wp_debug_body_class' );
+}
+
+if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
+	function atlatl_script_debug_body_class( $classes ) {
+		$classes[] = 'SCRIPT_DEBUG';
+		return $classes;
+	}
+
+	add_filter( 'body_class','atlatl_script_debug_body_class' );
 }
 
 
@@ -84,6 +102,7 @@ function atlatl_get_setting( $option ) {
 
 function atlatl_get_sidebar_count() {
 	global $atlatl_sidebar_cnt;
+	if (!isset($atlatl_sidebar_cnt)) $atlatl_sidebar_cnt = 0;
 
 	if ($atlatl_sidebar_cnt === 0)
 		for ($i=1; $i < 3; $i++)
@@ -96,10 +115,10 @@ function atlatl_get_content_position() {
 	$cpos = atlatl_get_setting( 'content_position' );
 
 	$cnt = atlatl_get_sidebar_count();
-	if ($cnt & 1 == 0) $cpos .= 1;
-	if ($cnt & 2 == 0) $cpos .= 2;
+	if (($cnt & 1) == 0) $cpos .= '1';
+	if (($cnt & 2) == 0) $cpos .= '2';
 
-	switch ($cpos) {  // numbers mean missing
+	switch ($cpos) {  // numbers means missing
 		case 'cnt12':
 		case 'dlf12':
 		case 'slf12':

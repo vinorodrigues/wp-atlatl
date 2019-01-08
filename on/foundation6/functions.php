@@ -3,6 +3,7 @@
 if ( !defined('FOUNDATION_VERSION') )
 	define('FOUNDATION_VERSION', '6.5.1');
 
+
 // ----------------------------------------------------------------------------
 // ----- HTML -----
 
@@ -57,7 +58,6 @@ function atlatl_f6_scripts() {
 
 	// JavaScript
 
-	// jQuery
 	$url = '';  // $url = trim( bs4_get_option('jquery_js') );
 	if (empty($url)) {
 		$ver = FOUNDATION_VERSION;
@@ -67,6 +67,7 @@ function atlatl_f6_scripts() {
 	}
 	wp_enqueue_script( 'foundation', $url, array('jquery'), $ver, true );
 
+	ts_enqueue_script( 'init-foundation', "(function ( $ ) {\n\t$(document).foundation();\n}( jQuery ));" );
 }
 
 add_action('wp_enqueue_scripts', 'atlatl_f6_scripts', 40);

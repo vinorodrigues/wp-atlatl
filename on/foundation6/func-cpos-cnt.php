@@ -1,5 +1,14 @@
 <?php
 
+// ----- Body -----
+
+function atlatl_f6_body_class( $classes ) {
+	$classes[] = 'layout-cnt';
+	return $classes;
+}
+
+add_filter( 'body_class','atlatl_f6_body_class' );
+
 // ----- Content -----
 
 function atlatl_f6_content_before() {

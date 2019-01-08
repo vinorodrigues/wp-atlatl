@@ -11,8 +11,9 @@
 	}
 
 	img {
-		width: 25%;
-		height: 25%;
+		width: auto;
+		height: auto;
+		max-height: 8em;
 		margin: 2px 8px 2px 0;
 		border: 2px dotted transparent;
 		cursor: pointer;
