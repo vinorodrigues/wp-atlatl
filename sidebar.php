@@ -8,7 +8,7 @@ tha_content_after();
 
 // process the 2 main sidebars, if they exist
 
-if (atlatl_get_sidebar_count() > 0) {
+if ((atlatl_get_sidebar_bits() & 3) != 0) {
 	tha_sidebars_before();
 
 	for ($i=1; $i <= 2; $i++)

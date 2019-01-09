@@ -62,6 +62,10 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 if (defined('WP_DEBUG') && WP_DEBUG) {
 	function atlatl_wp_debug_body_class( $classes ) {
 		$classes[] = 'WP_DEBUG';
+		$classes[] = 'layout-' .
+			atlatl_get_setting( 'content_position' ) . '-' .
+			atlatl_get_content_position() . '-' .
+			atlatl_get_sidebar_bits();
 		return $classes;
 	}
 
@@ -100,7 +104,7 @@ function atlatl_get_setting( $option ) {
 	return $value;
 }
 
-function atlatl_get_sidebar_count() {
+function atlatl_get_sidebar_bits() {
 	global $atlatl_sidebar_cnt;
 	if (!isset($atlatl_sidebar_cnt)) $atlatl_sidebar_cnt = 0;
 
@@ -114,7 +118,7 @@ function atlatl_get_sidebar_count() {
 function atlatl_get_content_position() {
 	$cpos = atlatl_get_setting( 'content_position' );
 
-	$cnt = atlatl_get_sidebar_count();
+	$cnt = atlatl_get_sidebar_bits();
 	if (($cnt & 1) == 0) $cpos .= '1';
 	if (($cnt & 2) == 0) $cpos .= '2';
 
@@ -262,7 +266,7 @@ add_action( 'widgets_init', 'atlatl_widgets_init' );
 // add_action('wp_loaded', 'atlatl_wp_loaded', 30);
 
 function atlatl_scripts() {
-	$th_ver = wp_get_theme()->version;
+	$th_ver = (defined('WP_DEBUG') && WP_DEBUG) ? GUID() : wp_get_theme()->version;
 
 	// CSS
 
