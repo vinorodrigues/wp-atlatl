@@ -26,8 +26,8 @@ add_action('tha_content_after', 'atlatl_f6_content_after', 60, 0);
 // ----- Siderbars -----
 
 function atlatl_f6_sidebar_top() {
-	$cnt = atlatl_get_sidebar_count();
-	echo '<div class="cell medium-' . ($cnt > 2 ? '6' : '12') . '">';
+	$has2 = (atlatl_get_sidebar_bits() & 3) == 3;
+	echo '<div class="cell medium-' . ($has2 ? '6' : '12') . '">';
 }
 
 add_action('tha_sidebar_top', 'atlatl_f6_sidebar_top', 40, 0);

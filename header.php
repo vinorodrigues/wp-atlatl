@@ -18,7 +18,7 @@ tha_body_top();
 
 function atlatl_do_header($class = '') {
 	tha_header_before();
-	echo '<header id="header"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+	echo '<header';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_header_top();
 	tha_header_bottom();
 	echo '</header>';
@@ -27,7 +27,7 @@ function atlatl_do_header($class = '') {
 
 function atlatl_do_nav($class = '') {
 	tha_nav_before();
-	echo '<nav id="navigation"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+	echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_nav_top();
 	tha_nav_bottom();
 	echo '</nav>';
@@ -38,5 +38,5 @@ atlatl_do_header();
 atlatl_do_nav();
 
 tha_content_before();
-echo '<main id="content">';
+echo '<main>';
 tha_content_top();

@@ -21,6 +21,7 @@
 /**
  * Define the version of THA support, in case that becomes useful down the road.
  */
+if ( ! defined( 'THA_HOOKS_VERSION' ) ) :
 define( 'THA_HOOKS_VERSION', '1.1' );
 
 /**
@@ -284,3 +285,5 @@ function tha_footer_top() {
 function tha_footer_bottom() {
 	do_action( 'tha_footer_bottom' );
 }
+
+endif;

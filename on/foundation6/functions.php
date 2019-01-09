@@ -30,8 +30,25 @@ add_action('tha_head_top', 'atlatl_f6_head_top', 50, 0);
 // ----- Layout -----
 
 function atlatl_f6_wp_loaded() {
-	include_once( 'func-wdth-all.php' );
-	include_once( 'func-cpos-' . atlatl_get_content_position() . '.php' );
+	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
+	$cpos = atlatl_get_content_position();
+	include_once( 'func-cpos-' . $cpos . '.php' );
+
+		if (is_admin_bar_showing() &&
+		((atlatl_get_sidebar_bits() & 3) == 2) &&  // only sidebar-2 showing
+		(($cpos == 'slf') || ($cpos == 'srt')))  // stacked layouts only
+		ts_enqueue_style( 'admin-bar-sticky',
+			// 'body { background-color: red; }' . PHP_EOL .
+			'.admin-bar .sticky-sidebar.is-stuck {' . PHP_EOL .
+			'  padding-top: 32px !important;' . PHP_EOL .
+			' }' . PHP_EOL .
+			'@media screen and (maxwidth-width: 782px) {' . PHP_EOL .
+			'  .admin-bar .sticky-sidebar.is-stuck {' . PHP_EOL .
+			'    padding-top: 46px !important;' . PHP_EOL .
+			'  }' . PHP_EOL .
+			'}' . PHP_EOL,
+			array(),
+			'screen' );
 }
 
 add_action('wp_loaded', 'atlatl_f6_wp_loaded', 50);

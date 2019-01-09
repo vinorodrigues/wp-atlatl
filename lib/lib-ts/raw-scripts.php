@@ -16,7 +16,6 @@ if ( ! defined( 'TS_RAW_SCRIPTS' ) ) :
 class TS_Scripts extends WP_Dependencies {
 
 	public function do_items( $handles = false, $group = false ) {
-		// echo '<!-- TS_Scripts -->' . PHP_EOL;
 		echo '<script type="text/javascript">' . PHP_EOL;
 		parent::do_items($handles, $group);
 		echo '</script>' . PHP_EOL;

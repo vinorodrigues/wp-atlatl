@@ -12,7 +12,7 @@ add_filter( 'body_class','atlatl_f6_body_class' );
 // ----- Content -----
 
 function atlatl_f6_content_before() {
-	echo '<div class="cell medium-9 medium-order-2 content">';
+	echo '<div class="cell medium-9 medium-order-2 main">';
 }
 
 add_action('tha_content_before', 'atlatl_f6_content_before', 40, 0);

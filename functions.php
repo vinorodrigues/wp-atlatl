@@ -16,7 +16,7 @@ if (!defined('THEME_ENGINE'))
 
 include_once( 'lib/tha-theme-hooks.php' );
 include_once( 'lib/lib-ts/raw-scripts.php' );
-// include_once( 'lib/lib-ts/raw-styles.php' );
+include_once( 'lib/lib-ts/raw-styles.php' );
 include_once( 'on/' . THEME_ENGINE . '/functions.php' );
 include_once( 'inc/customizer.php' );
 if (defined('WP_DEBUG') && WP_DEBUG)
@@ -104,13 +104,26 @@ function atlatl_get_setting( $option ) {
 	return $value;
 }
 
+/**
+ * Bitwize mask of set sidebars
+ *
+ * +----------+-----------------------+--------+---------------------+
+ * |          | Footer                |        | Sidebar             |
+ * | Not used +-----+-----+-----+-----+ Header +-----------+---------+
+ * |          | 4th | 3rd | 2nd | 1st |        | Secondary | Primary |
+ * +----------+-----+-----+-----+-----+--------+-----------+---------+
+ * | 128      | 64  | 32  | 16  | 8   | 4      | 2         | 1       |
+ * +----------+-----+-----+-----+-----+--------+-----------+---------+
+ */
 function atlatl_get_sidebar_bits() {
 	global $atlatl_sidebar_cnt;
 	if (!isset($atlatl_sidebar_cnt)) $atlatl_sidebar_cnt = 0;
 
 	if ($atlatl_sidebar_cnt === 0)
-		for ($i=1; $i < 3; $i++)
-			if (is_active_sidebar( 'sidebar-' . $i )) $atlatl_sidebar_cnt += $i;
+		for ($i=0; $i < 7; $i++) {
+			if (is_active_sidebar( 'sidebar-' . ($i+1) ))
+				$atlatl_sidebar_cnt = $atlatl_sidebar_cnt | (1 << $i);
+		}
 
 	return $atlatl_sidebar_cnt;
 }
@@ -118,11 +131,12 @@ function atlatl_get_sidebar_bits() {
 function atlatl_get_content_position() {
 	$cpos = atlatl_get_setting( 'content_position' );
 
+	// Get MISSING sidebars
 	$cnt = atlatl_get_sidebar_bits();
 	if (($cnt & 1) == 0) $cpos .= '1';
 	if (($cnt & 2) == 0) $cpos .= '2';
 
-	switch ($cpos) {  // numbers means missing
+	switch ($cpos) {
 		case 'cnt12':
 		case 'dlf12':
 		case 'slf12':
@@ -203,11 +217,6 @@ function atlatl_setup_theme() {
 }
 
 add_action( 'after_setup_theme', 'atlatl_setup_theme' );
-
-// function atlatl_wp_loaded() {
-// }
-
-// add_action('wp_loaded', 'atlatl_wp_loaded', 30);
 
 function atlatl_widgets_init() {
 	global $container_segments;
