@@ -26,6 +26,17 @@ function atlatl_f6_head_top() {
 
 add_action('tha_head_top', 'atlatl_f6_head_top', 50, 0);
 
+// ----- Helper actions -----
+
+function atlatl_f6_end_1_div() {
+	echo '</div>';
+}
+
+function atlatl_f6_end_2_divs() {
+	echo '</div></div>';
+}
+
+
 // ----------------------------------------------------------------------------
 // ----- Layout -----
 
@@ -33,6 +44,7 @@ function atlatl_f6_wp_loaded() {
 	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
 	$cpos = atlatl_get_content_position();
 	include_once( 'func-cpos-' . $cpos . '.php' );
+	include_once( 'func-footer.php' );
 
 		if (is_admin_bar_showing() &&
 		((atlatl_get_sidebar_bits() & 3) == 2) &&  // only sidebar-2 showing

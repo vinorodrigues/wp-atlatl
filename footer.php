@@ -20,20 +20,6 @@
  * [1] [2] [3] [4] [5] [6] [7] [8] [9] [A] [B] [C]
  */
 
-static $footer_classes = array(
-		array('small-12'),
-		array('medium-6', 'medium-6'),
-		array('medium-8', 'medium-4'),
-		array('medium-9', 'medium-3'),
-		array('medium-4', 'medium-4', 'medium-4'),
-		array('medium-3', 'medium-6', 'medium-3'),
-		array('medium-6', 'medium-3', 'medium-3'),
-		array('medium-6 large-3', 'medium-6 large-3', 'medium-6 large-3', 'medium-6 large-3'),
-		array('medium-4', 'medium-8'),
-		array('medium-3', 'medium-9'),
-		array('medium-3', 'medium-3', 'medium-6')
-	);
-
 // Get ACTIVE sidebars
 $fpos = '';
 $fsbr = array();
@@ -60,31 +46,38 @@ switch ($fpos) {
 
 // ----- code -----
 
+tha_container_bottom();
+tha_container_after();
+
 tha_footer_before();
 
 if (count($fsbr) > 0) {
 	echo '<footer>' . PHP_EOL;
 	tha_footer_top();
 
-	echo '<div class="footer grid-x grid-padding-x grid-padding-y">';
-
 	for ($i=0; $i < count($fsbr); $i++) {
-		echo '<div class="footer-' . ($fsbr[$i] - 3) . ' cell ' . $footer_classes[$idx][$i] . '">';
+		/*
+		 * $args[0] = footer sequence no. (1..4)
+		 * $args[1] = footer-bar no. (1..4)
+		 * $args[2] = layout index @see footer.php
+		 */
+		$args = array($i+1, $fsbr[$i]-3, $idx);
+
+		do_action( 'tha_footer_' . ($i+1) . '_top', $args );
 
 		dynamic_sidebar( 'sidebar-' . $fsbr[$i] );
 
-		echo '</div>';
+		do_action( 'tha_footer_' . ($i+1) . '_bottom', $args );
 	}
-
-	echo '</div>';
 
 	tha_footer_bottom();
 	echo '</footer>' . PHP_EOL;
 }
+
 tha_footer_after();
 
 tha_body_bottom();
-echo PHP_EOL . '<div id="wp-footer" class="hidden" hidden>' . PHP_EOL;
+echo PHP_EOL . '<div id="wpfooter" class="hidden" hidden>' . PHP_EOL;
 wp_footer();
 echo '</div>' . PHP_EOL;
 echo '</body>' . PHP_EOL;

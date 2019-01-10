@@ -54,33 +54,6 @@ function atlatl_customize_register( $wp_customize ) {
 
 	// ----- Site Identity -----
 
-	$wp_customize->add_setting( 'logo_width', array(
-		'type' => 'theme_mod',
-		'capability' => 'edit_theme_options',
-		'default' => atlatl_get_default( 'logo_width' )
-		) );
-	$wp_customize->add_setting( 'logo_height', array(
-		'type' => 'theme_mod',
-		'capability' => 'edit_theme_options',
-		'default' => atlatl_get_default( 'logo_height' )
-		) );
-
-	$wp_customize->add_control( 'logo_width', array(
-		'type'        => 'text',
-		'section'     => 'title_tagline',  // Site Title & Tagline
-		'label'       => 'Logo Width',
-		'priority'    => 9,
-		'description' => 'Set override logo image width (use valid css/style values)',
-		) );
-
-	$wp_customize->add_control( 'logo_height', array(
-		'type'        => 'text',
-		'section'     => 'title_tagline',  // Site Title & Tagline
-		'label'       => 'Logo Height',
-		'priority'    => 9,
-		'description' => 'Set override logo image height (can also be a percentage)',
-		) );
-
 	$wp_customize->add_setting( 'logo_placement', array(
 		'type' => 'theme_mod',
 		'capability' => 'edit_theme_options',

@@ -2,23 +2,19 @@
 // * DEBUG CSS
 // */
 
-// .grid-container,
-// div[class^="container"] {
-// 	outline: 1px dotted red;
-// }
+.grid-container,
+div[class^="container"] {
+	outline: 1px dotted red;
+}
 
-// #header, #nav, #content, #footer  {
-// 	outline: 1px dotted blue;
-// }
+#header, #nav, #content, #footer  {
+	outline: 1px dotted blue;
+}
 
-// .cell {
-// 	outline: 1px dotted green;
-// }
+.cell {
+	outline: 1px dotted green;
+}
 
-// div[class^="col-"] {
-// 	outline: 1px dashed green;
-// }
-
-// .folio { outline: 1px solid #777700; }
-// .section { outline: 1px dashed green; }
-// .band { outline: 1px dotted red; }  /* */
+div[class^="col-"] {
+	outline: 1px dashed green;
+}

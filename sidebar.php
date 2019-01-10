@@ -11,18 +11,21 @@ tha_content_after();
 if ((atlatl_get_sidebar_bits() & 3) != 0) {
 	tha_sidebars_before();
 
-	for ($i=1; $i <= 2; $i++)
+	$j = 0;
+	for ($i=1; $i <= 2; $i++) {
+		$j++;
 		if (is_active_sidebar( 'sidebar-' . $i )) {
 			tha_sidebar_top();
-			do_action( 'tha_sidebar_' . $i . '_top');
+			do_action( 'tha_sidebar_' . $j . '_top', array($i) );
 
 			echo '<section id="sidebar" class="sidebar-' . $i . '">';
 			dynamic_sidebar( 'sidebar-' . $i );
 			echo '</section>';
 
-			do_action( 'tha_sidebar_' . $i . '_bottom');
+			do_action( 'tha_sidebar_' . $j . '_bottom', array($i) );
 			tha_sidebar_bottom();
 		}
+	}
 
 	tha_sidebars_after();
 }

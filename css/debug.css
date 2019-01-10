@@ -1,2 +1,18 @@
+.grid-container,
+div[class^="container"] {
+  outline: 1px dotted red;
+}
+
+#header, #nav, #content, #footer {
+  outline: 1px dotted blue;
+}
+
+.cell {
+  outline: 1px dotted green;
+}
+
+div[class^="col-"] {
+  outline: 1px dashed green;
+}
 
 /*# sourceMappingURL=debug.css.map */

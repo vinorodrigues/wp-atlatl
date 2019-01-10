@@ -60,6 +60,7 @@ define( 'THA_HOOKS_VERSION', '1.1' );
 	// 'head',
 	// 'header',
 	// 'nav',
+	// 'container',
 	// 'content',
 	// 'entry',
 	// 'comments',
@@ -171,6 +172,28 @@ function tha_nav_top() {
 
 function tha_nav_bottom() {
 	do_action( 'tha_nav_bottom' );
+}
+
+/**
+ * Semantic container/wrapper hooks, wrapping <content> and <sidebars>,
+ * should appear after <header>/<nav> & before <footer>
+ *
+ * $tha_supports[] = 'container';
+ */
+function tha_container_before() {
+	do_action('tha_container_before');
+}
+
+function tha_container_after() {
+	do_action('tha_container_after');
+}
+
+function tha_container_top() {
+	do_action('tha_container_top');
+}
+
+function tha_container_bottom() {
+	do_action('tha_container_bottom');
 }
 
 /**
