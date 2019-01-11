@@ -59,3 +59,6 @@ function disable_wp_emojicons() {
 }
 
 add_action( 'init', 'disable_wp_emojicons', 999 );
+
+// https://stackoverflow.com/questions/38693992/notice-ob-end-flush-failed-to-send-buffer-of-zlib-output-compression-1-in
+remove_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
