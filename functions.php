@@ -42,7 +42,7 @@ if (!function_exists('get_theme_file_uri')) {  // get_theme_file_uri - included 
 	}
 }
 
-if (defined('WP_DEBUG') && WP_DEBUG) {
+if (defined('WP_DEBUG') && WP_DEBUG && (!function_exists('GUID'))) {
 	function GUID() {
 		if (function_exists('com_create_guid') === true)
 			return trim(com_create_guid(), '{}');
@@ -79,6 +79,29 @@ if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
 	}
 
 	add_filter( 'body_class','atlatl_script_debug_body_class' );
+}
+
+/**
+ * See: http://www.wpbeginner.com/wp-tutorials/25-extremely-useful-tricks-for-the-wordpress-functions-file/
+ */
+if (!function_exists('wpb_copyright_date')) {
+	function wpb_copyright_date() {
+		global $wpdb;
+		$copyright_dates = $wpdb->get_results('SELECT' .
+			' YEAR(min(post_date_gmt)) AS firstdate,' .
+			' YEAR(max(post_date_gmt)) AS lastdate' .
+			' FROM' .
+			' ' . $wpdb->posts .
+			' WHERE' .
+			' post_status = \'publish\'');
+		$output = '';
+		if($copyright_dates) {
+			$output .= $copyright_dates[0]->firstdate;
+			if ($copyright_dates[0]->firstdate != $copyright_dates[0]->lastdate)
+				$output .= '-' . $copyright_dates[0]->lastdate;
+		}
+		return $output;
+	}
 }
 
 
@@ -177,8 +200,6 @@ function atlatl_setup_theme() {
 
 	register_nav_menus( array(
 		'primary' => 'Primary Menu',
-		// 'header'  => 'Header Menu',
-		// 'footer'  => 'Footer Menu',
 		) );
 
 	add_theme_support( 'html5', array(
@@ -218,7 +239,7 @@ function atlatl_setup_theme() {
 		) );
 }
 
-add_action( 'after_setup_theme', 'atlatl_setup_theme' );
+add_action( 'after_setup_theme', 'atlatl_setup_theme', 50 );
 
 function atlatl_widgets_init() {
 	global $container_segments;
@@ -269,7 +290,7 @@ function atlatl_widgets_init() {
 	}
 }
 
-add_action( 'widgets_init', 'atlatl_widgets_init' );
+add_action( 'widgets_init', 'atlatl_widgets_init', 50 );
 
 // function atlatl_wp_loaded() {
 // }
@@ -328,3 +349,4 @@ function atlatl_scripts() {
 }
 
 add_action('wp_enqueue_scripts', 'atlatl_scripts', 50);
+

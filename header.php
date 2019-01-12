@@ -20,24 +20,30 @@ function atlatl_do_header($class = '') {
 	tha_header_before();
 	echo '<header';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_header_top();
-	echo '[!-- DO SOMETING HERE --]';
+
+	echo apply_filters( 'atlatl_get_header', '<!-- DO HEADER HERE -->' );
+
 	tha_header_bottom();
 	echo '</header>';
 	tha_header_after();
 }
 
 function atlatl_do_nav($class = '') {
-	tha_nav_before();
-	echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
-	tha_nav_top();
-	echo '[!-- DO SOMETING HERE --]';
-	tha_nav_bottom();
-	echo '</nav>';
-	tha_nav_after();
+	if (has_nav_menu('primary')) {
+		tha_nav_before();
+		echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+		tha_nav_top();
+
+		echo apply_filters( 'atlatl_get_nav', '<!-- DO NAV HERE -->', 'primary' );
+
+		tha_nav_bottom();
+		echo '</nav>';
+		tha_nav_after();
+	}
 }
 
-atlatl_do_header();
-// atlatl_do_nav();
+atlatl_do_header( apply_filters( 'atlatl_header_class', '' ) );
+atlatl_do_nav( apply_filters( 'atlatl_nav_class', '' ) );
 
 tha_container_before();
 tha_container_top();

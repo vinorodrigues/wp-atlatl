@@ -14,7 +14,7 @@ function atlatl_f6_html_before() {
 	echo '<!doctype html>' . PHP_EOL;
 }
 
-add_action('tha_html_before', 'atlatl_f6_html_before', 50, 0);
+add_action('tha_html_before', 'atlatl_f6_html_before', 5, 0);
 
 /**
  * Top of <head>
@@ -24,7 +24,7 @@ function atlatl_f6_head_top() {
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"></meta>' . PHP_EOL;
 }
 
-add_action('tha_head_top', 'atlatl_f6_head_top', 50, 0);
+add_action('tha_head_top', 'atlatl_f6_head_top', 5, 0);
 
 // ----- Helper actions -----
 
@@ -41,12 +41,14 @@ function atlatl_f6_end_2_divs() {
 // ----- Layout -----
 
 function atlatl_f6_wp_loaded() {
+	include_once( 'menu-walker.php' );
 	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
 	$cpos = atlatl_get_content_position();
 	include_once( 'func-cpos-' . $cpos . '.php' );
+	include_once( 'func-menus.php' );
 	include_once( 'func-footer.php' );
 
-		if (is_admin_bar_showing() &&
+	if (is_admin_bar_showing() &&
 		((atlatl_get_sidebar_bits() & 3) == 2) &&  // only sidebar-2 showing
 		(($cpos == 'slf') || ($cpos == 'srt')))  // stacked layouts only
 		ts_enqueue_style( 'admin-bar-sticky',
@@ -63,7 +65,17 @@ function atlatl_f6_wp_loaded() {
 			'screen' );
 }
 
-add_action('wp_loaded', 'atlatl_f6_wp_loaded', 50);
+add_action('wp_loaded', 'atlatl_f6_wp_loaded', 60);
+
+function atlatl_f6_setup_theme() {
+	register_nav_menus( array(
+		'header'  => 'Header Menu',
+		'footer'  => 'Footer Menu',
+		) );
+}
+
+add_action( 'after_setup_theme', 'atlatl_f6_setup_theme', 60 );
+
 
 // ----------------------------------------------------------------------------
 // ----- Scripts -----
@@ -72,7 +84,7 @@ add_action('wp_loaded', 'atlatl_f6_wp_loaded', 50);
  * Scripts
  */
 function atlatl_f6_scripts() {
-	$th_ver = wp_get_theme()->version;
+	$th_ver = (defined('WP_DEBUG') && WP_DEBUG) ? GUID() : wp_get_theme()->version;
 
 	// CSS
 
@@ -99,4 +111,4 @@ function atlatl_f6_scripts() {
 	ts_enqueue_script( 'init-foundation', "(function ( $ ) {\n\t$(document).foundation();\n}( jQuery ));" );
 }
 
-add_action('wp_enqueue_scripts', 'atlatl_f6_scripts', 40);
+add_action('wp_enqueue_scripts', 'atlatl_f6_scripts', 60);

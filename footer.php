@@ -51,10 +51,11 @@ tha_container_after();
 
 tha_footer_before();
 
-if (count($fsbr) > 0) {
-	echo '<footer>' . PHP_EOL;
-	tha_footer_top();
+$class = apply_filters( 'atlatl_footer_class', '' );
+echo '<footer'; if (!empty($class)) echo ' class="' . $class . '"'; echo '>' . PHP_EOL;
+tha_footer_top();
 
+if (count($fsbr) > 0) {
 	for ($i=0; $i < count($fsbr); $i++) {
 		/*
 		 * $args[0] = footer sequence no. (1..4)
@@ -69,11 +70,10 @@ if (count($fsbr) > 0) {
 
 		do_action( 'tha_footer_' . ($i+1) . '_bottom', $args );
 	}
-
-	tha_footer_bottom();
-	echo '</footer>' . PHP_EOL;
 }
 
+tha_footer_bottom();
+echo '</footer>' . PHP_EOL;
 tha_footer_after();
 
 tha_body_bottom();
