@@ -1,5 +1,15 @@
 <?php
 
+// Customise the footer in admin area
+function atlatl_admin_footer_text () {
+	echo 'WP-Altatl theme designed and developed by' .
+		' <a href="//github.com/vinorodrigues" target="_blank">Vino Rodrigues</a>' .
+		' and powered by <a href="//wordpress.org" target="_blank">WordPress</a>.';
+}
+
+add_filter('admin_footer_text', 'atlatl_admin_footer_text');
+
+
 // ----------------------------------------------------------------------------
 // Defines, includes & globals
 
@@ -19,7 +29,7 @@ include_once( 'lib/lib-ts/raw-scripts.php' );
 include_once( 'lib/lib-ts/raw-styles.php' );
 include_once( 'on/' . THEME_ENGINE . '/functions.php' );
 include_once( 'inc/customizer.php' );
-if (defined('WP_DEBUG') && WP_DEBUG)
+if (defined('WP_DEBUG') && WP_DEBUG && file_exists('inc/debug.php'))
 	include_once( 'inc/debug.php' );
 
 
@@ -151,6 +161,19 @@ function atlatl_get_sidebar_bits() {
 
 	return $atlatl_sidebar_cnt;
 }
+
+function atlatl_body_class( $classes ) {
+	$bits = atlatl_get_sidebar_bits();
+	if (($bits & 3) != 0)
+		$classes[] = 'has-sidebar';
+	if (($bits & 1) != 0)
+		$classes[] = 'has-sidebar-1';
+	if (($bits & 2) != 0)
+		$classes[] = 'has-sidebar-2';
+	return $classes;
+}
+
+add_filter( 'body_class','atlatl_body_class' );
 
 function atlatl_get_content_position() {
 	$cpos = atlatl_get_setting( 'content_position' );
@@ -327,7 +350,7 @@ function atlatl_scripts() {
 			$th_ver );
 	}  /* */
 
-	if (defined('WP_DEBUG') && WP_DEBUG)
+	if (defined('WP_DEBUG') && WP_DEBUG && file_exists('css/debug.css'))
 		wp_enqueue_style( 'debug', get_template_directory_uri() . '/css/debug.css', array(), GUID(), 'screen' );
 
 	// JavaScript
@@ -349,4 +372,22 @@ function atlatl_scripts() {
 }
 
 add_action('wp_enqueue_scripts', 'atlatl_scripts', 50);
+
+// Custom CSS for the login page
+function atlatl_login_css() {
+	echo '<link rel="stylesheet" type="text/css" href="' .
+		get_template_directory_uri() .
+		'/css/wp-login.css" />';
+}
+
+add_action('login_head', 'atlatl_login_css');
+
+// Create a permalink after the excerpt
+function atlatl_the_excerpt($content) {
+	return str_replace(' [...]',
+		'<a class="readmore" href="'. get_permalink() .'">' .
+		__('Read More', 'wp-atlatl') . '</a>',
+		$content );
+}
+add_filter('the_excerpt', 'atlatl_the_excerpt');
 

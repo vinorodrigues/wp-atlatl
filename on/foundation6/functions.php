@@ -88,27 +88,40 @@ function atlatl_f6_scripts() {
 
 	// CSS
 
-	$url = '';
+	$url = '';  // TODO : Foundation form CDN
 	if (empty($url)) {
 		$ver = FOUNDATION_VERSION;
 		$url = get_theme_file_uri( '/on/foundation6/css/foundation' . DOTMIN . '.css' );
 	} else {
 		$ver = NULL;
 	}
-	wp_enqueue_style( 'foundation', $url, array(), $ver );
+	wp_enqueue_style( 'foundation',
+		$url,
+		array(),
+		$ver );
+
+	wp_enqueue_style( 'f6-style',
+		get_theme_file_uri( '/on/foundation6/css/style' . DOTMIN . '.css' ),
+		array('foundation'),
+		$th_ver );
 
 	// JavaScript
 
-	$url = '';  // $url = trim( bs4_get_option('jquery_js') );
+	$url = '';  // TODO : Foundation form CDN
 	if (empty($url)) {
 		$ver = FOUNDATION_VERSION;
 		$url = get_theme_file_uri( '/on/foundation6/js/foundation' . DOTMIN . '.js' );
 	} else {
 		$ver = NULL;
 	}
-	wp_enqueue_script( 'foundation', $url, array('jquery'), $ver, true );
+	wp_enqueue_script( 'foundation',
+		$url,
+		array('jquery'),
+		$ver,
+		true );
 
-	ts_enqueue_script( 'init-foundation', "(function ( $ ) {\n\t$(document).foundation();\n}( jQuery ));" );
+	ts_enqueue_script( 'init-foundation',
+		"(function ( $ ) {\n\t$(document).foundation();\n}( jQuery ));" );
 }
 
 add_action('wp_enqueue_scripts', 'atlatl_f6_scripts', 60);

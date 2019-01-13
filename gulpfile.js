@@ -32,7 +32,35 @@ gulp.task( 'sass:min', function(cb) {
         .pipe( gulp.dest('./css') );
 });
 
-gulp.task( 'sass' , gulp.series( 'sass:css', 'sass:min' ) );
+gulp.task( 'sass:f6:css', function(cb) {
+	return gulp.src( './on/foundation6/scss/**/*.scss' )
+		.pipe( maps.init() )
+		.pipe( sass( {
+			outputStyle: 'expanded',
+			errorLogToConsole: true,
+			includePaths: [
+				'./node_modules/foundation-sites/scss',
+				'./node_modules/foundation-sites/scss/util',
+				'./node_modules/foundation-sites/scss/prototype'
+			]
+			} ) )
+		.pipe( maps.write( '.' ) )
+		.on( 'error', console.error.bind( console ))
+		.pipe( gulp.dest( './on/foundation6/css' ) );
+});
+
+gulp.task( 'sass:f6:min', function(cb) {
+    return gulp.src( ['./on/foundation6/css/**/*.css', '!./on/foundation6/css/**/*.min.css', '!./on/foundation6/css/foundation.min.css'] )
+        .pipe( cmin() )
+        .pipe( renm( {
+        	suffix: '.min'
+	        }) )
+        .pipe( gulp.dest('./on/foundation6/css') );
+});
+
+gulp.task( 'sass:f6' , gulp.series( 'sass:f6:css', 'sass:f6:min' ) );
+
+gulp.task( 'sass' , gulp.series( 'sass:css', 'sass:min', 'sass:f6:css', 'sass:f6:min' ) );
 
 gulp.task('images', function(cb){
 	return gulp.src( './imgsrc/**/*.+(png|jpg|gif|svg)' )
@@ -76,10 +104,12 @@ gulp.task( 'js', function(cb) {
 });
 
 gulp.task( 'watch', function(cb){
- 	gulp.watch( './scss/**/*.scss', gulp.parallel('sass:css') );
- 	gulp.watch( ['./css/**/*.css', '!./css/**/*.min.css'], gulp.parallel('sass:min') );
- 	gulp.watch( './imgsrc/**/*.+(png|jpg|gif|svg)', gulp.parallel('images') );
- 	gulp.watch( ['js/**/*.js', '!js/**/*.min.js'], gulp.parallel('js') );
+	gulp.watch( './scss/**/*.scss', gulp.parallel('sass:css') );
+	gulp.watch( ['./css/**/*.css', '!./css/**/*.min.css'], gulp.parallel('sass:min') );
+	gulp.watch( './on/foundation6/scss/**/*.scss', gulp.parallel('sass:f6:css') );
+	gulp.watch( ['./on/foundation6/css/**/*.css', '!./on/foundation6/css/**/*.min.css', '!./on/foundation6/css/foundation.min.css'], gulp.parallel('sass:f6:min') );
+	gulp.watch( './imgsrc/**/*.+(png|jpg|gif|svg)', gulp.parallel('images') );
+	gulp.watch( ['js/**/*.js', '!js/**/*.min.js'], gulp.parallel('js') );
 });
 
 gulp.task( 'default' , gulp.series( 'sass', 'images', 'js' ) );
