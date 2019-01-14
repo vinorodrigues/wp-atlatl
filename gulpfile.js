@@ -11,8 +11,31 @@ var imin = require( 'gulp-imagemin' );
 var renm = require( 'gulp-rename' );
 var ugly = require( 'gulp-uglify' );
 
+var paths = {
+	sassSrc: './scss/**/*.scss',
+	cssSrc: [
+		'./css/**/*.css',
+		'!./css/**/*.min.css'
+		],
+	cssOut: './css',
+	sassFoundationSrc: './on/foundation6/scss/**/*.scss',
+	sassFoundationIncludes: [
+		'./node_modules/foundation-sites/scss',
+		'./node_modules/foundation-sites/scss/util',
+		'./node_modules/foundation-sites/scss/prototype'
+		],
+	cssFoundationOut: './on/foundation6/css',
+	imgSrc: './imgsrc/**/*.+(png|jpg|gif|svg)',
+	imgOut: './img',
+	jsSrc: [
+		'js/**/*.js',
+		'!js/**/*.min.js'
+		],
+	jsOut: './js'
+}
+
 gulp.task( 'sass:css', function(cb) {
-	return gulp.src( './scss/**/*.scss' )
+	return gulp.src( paths.sassSrc )
 		.pipe( maps.init() )
 		.pipe( sass( {
 			outputStyle: 'expanded',
@@ -20,29 +43,25 @@ gulp.task( 'sass:css', function(cb) {
 			} ) )
 		.pipe( maps.write( '.' ) )
 		.on( 'error', console.error.bind( console ))
-		.pipe( gulp.dest( './css' ) );
+		.pipe( gulp.dest( paths.cssOut ) );
 });
 
 gulp.task( 'sass:min', function(cb) {
-    return gulp.src( ['./css/**/*.css', '!./css/**/*.min.css'] )
-        .pipe( cmin() )
-        .pipe( renm( {
-        	suffix: '.min'
-	        }) )
-        .pipe( gulp.dest('./css') );
+	return gulp.src( paths.cssSrc )
+		.pipe( cmin() )
+		.pipe( renm( {
+			suffix: '.min'
+			}) )
+		.pipe( gulp.dest( paths.cssOut ) );
 });
 
 gulp.task( 'sass:f6:css', function(cb) {
-	return gulp.src( './on/foundation6/scss/**/*.scss' )
+	return gulp.src( paths.sassFoundationSrc )
 		.pipe( maps.init() )
 		.pipe( sass( {
 			outputStyle: 'expanded',
 			errorLogToConsole: true,
-			includePaths: [
-				'./node_modules/foundation-sites/scss',
-				'./node_modules/foundation-sites/scss/util',
-				'./node_modules/foundation-sites/scss/prototype'
-			]
+			includePaths: paths.sassFoundationIncludes
 			} ) )
 		.pipe( maps.write( '.' ) )
 		.on( 'error', console.error.bind( console ))
@@ -50,12 +69,18 @@ gulp.task( 'sass:f6:css', function(cb) {
 });
 
 gulp.task( 'sass:f6:min', function(cb) {
-    return gulp.src( ['./on/foundation6/css/**/*.css', '!./on/foundation6/css/**/*.min.css', '!./on/foundation6/css/foundation.min.css'] )
-        .pipe( cmin() )
+	return gulp.src( paths.sassFoundationSrc )
+		.pipe( maps.init() )
+		.pipe( sass( {
+			outputStyle: 'compressed',
+			errorLogToConsole: true,
+			includePaths: paths.sassFoundationIncludes
+			} ) )
+		.on( 'error', console.error.bind( console ))
         .pipe( renm( {
         	suffix: '.min'
 	        }) )
-        .pipe( gulp.dest('./on/foundation6/css') );
+		.pipe( gulp.dest( paths.cssFoundationOut ) );
 });
 
 gulp.task( 'sass:f6' , gulp.series( 'sass:f6:css', 'sass:f6:min' ) );
@@ -63,7 +88,7 @@ gulp.task( 'sass:f6' , gulp.series( 'sass:f6:css', 'sass:f6:min' ) );
 gulp.task( 'sass' , gulp.series( 'sass:css', 'sass:min', 'sass:f6:css', 'sass:f6:min' ) );
 
 gulp.task('images', function(cb){
-	return gulp.src( './imgsrc/**/*.+(png|jpg|gif|svg)' )
+	return gulp.src( paths.imgSrc )
 		.pipe( imin( [
 			imin.gifsicle({interlaced: true}),
 			imin.jpegtran({progressive: true}),
@@ -88,11 +113,11 @@ gulp.task('images', function(cb){
 				})
 			]) )
 		.on( 'error', console.error.bind( console ))
-		.pipe( gulp.dest( './img') )
+		.pipe( gulp.dest( paths.imgOut ) )
 });
 
 gulp.task( 'js', function(cb) {
-    return gulp.src( ['js/**/*.js', '!js/**/*.min.js'] )
+    return gulp.src( paths.jsSrc )
         .pipe( ugly( {
         	mangle: false
 	        }) )
@@ -100,16 +125,16 @@ gulp.task( 'js', function(cb) {
         	suffix: '.min'
 	        }) )
 		.on( 'error', console.error.bind( console ))
-        .pipe( gulp.dest('./js') );
+        .pipe( gulp.dest( paths.jsOut ) );
 });
 
 gulp.task( 'watch', function(cb){
-	gulp.watch( './scss/**/*.scss', gulp.parallel('sass:css') );
-	gulp.watch( ['./css/**/*.css', '!./css/**/*.min.css'], gulp.parallel('sass:min') );
-	gulp.watch( './on/foundation6/scss/**/*.scss', gulp.parallel('sass:f6:css') );
-	gulp.watch( ['./on/foundation6/css/**/*.css', '!./on/foundation6/css/**/*.min.css', '!./on/foundation6/css/foundation.min.css'], gulp.parallel('sass:f6:min') );
-	gulp.watch( './imgsrc/**/*.+(png|jpg|gif|svg)', gulp.parallel('images') );
-	gulp.watch( ['js/**/*.js', '!js/**/*.min.js'], gulp.parallel('js') );
+	gulp.watch( paths.sassSrc, gulp.parallel('sass:css') );
+	gulp.watch( paths.cssSrc, gulp.parallel('sass:min') );
+	gulp.watch( paths.sassFoundationSrc, gulp.parallel('sass:f6:css') );
+	gulp.watch( paths.sassFoundationSrc, gulp.parallel('sass:f6:min') );
+	gulp.watch( paths.imgSrc, gulp.parallel('images') );
+	gulp.watch( paths.jsSrc, gulp.parallel('js') );
 });
 
 gulp.task( 'default' , gulp.series( 'sass', 'images', 'js' ) );

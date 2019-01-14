@@ -71,7 +71,7 @@ add_filter( 'atlatl_get_footer_menu', 'atlatl_f6_get_generic_menu', 50, 2);
 
 function foundation6_footer_nav_menu_css_class( $classes, $item, $args ) {
 //	echo '<pre>'; var_dump($args->theme_location); var_dump($classes); echo '</pre>';
-	if ( 'footer' === $args->theme_location )
+	if ( ('footer-1' === $args->theme_location) || ('footer-2' === $args->theme_location) )
 		if (($key = array_search('is-active', $classes)) !== false)
 			unset($classes[$key]);
 

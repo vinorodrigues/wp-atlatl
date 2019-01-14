@@ -29,7 +29,7 @@ include_once( 'lib/lib-ts/raw-scripts.php' );
 include_once( 'lib/lib-ts/raw-styles.php' );
 include_once( 'on/' . THEME_ENGINE . '/functions.php' );
 include_once( 'inc/customizer.php' );
-if (defined('WP_DEBUG') && WP_DEBUG && file_exists('inc/~debug.php'))
+if (defined('WP_DEBUG') && WP_DEBUG && file_exists(get_template_directory().'/inc/~debug.php'))
 	include_once( 'inc/~debug.php' );
 
 
@@ -350,7 +350,7 @@ function atlatl_scripts() {
 			$th_ver );
 	}  /* */
 
-	if (defined('WP_DEBUG') && WP_DEBUG && file_exists('css/~debug.css'))
+	if (defined('WP_DEBUG') && WP_DEBUG && file_exists(get_template_directory().'/css/~debug.css'))
 		wp_enqueue_style( 'debug', get_template_directory_uri() . '/css/~debug.css', array(), GUID(), 'screen' );
 
 	// JavaScript
