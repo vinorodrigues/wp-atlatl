@@ -46,16 +46,109 @@ add_action( 'tha_footer_2_bottom', 'atlatl_f6_end_1_div' );
 add_action( 'tha_footer_3_bottom', 'atlatl_f6_end_1_div' );
 add_action( 'tha_footer_4_bottom', 'atlatl_f6_end_1_div' );
 
-function tha_footer_f6_copyright() {
-	echo '</div><div class="grid-x grid-padding-y align-middle">';
+// ----- Copyright -----
 
-	// TODO : Redo this bit !!!
-
-	echo '<div class="cell large-6 text-center large-text-left">';
-	echo apply_filters( 'atlatl_get_footer_menu', '<!-- FOOTER MENU HERE -->', 'footer-1' );
-	echo '</div><div class="cell large-6 text-center large-text-right">';
+function __footer_f6_copyright_0() {
+	echo '<div class="cell small-12 text-center">';
 	echo apply_filters( 'atlatl_get_copyright', '&copy; ' .  wpb_copyright_date() . ' ' . get_bloginfo('name') );
 	echo '</div>';
 }
 
+function __footer_f6_copyright_1() {
+	echo '<div class="cell small-12">';
+
+	$items_wrap = '<ul id="%1$s" class="%2$s">';
+	$items_wrap .= '%3$s';
+	$items_wrap .= '<li class="menu-text">' . apply_filters( 'atlatl_get_copyright', '&copy; ' .  wpb_copyright_date() . ' ' . get_bloginfo('name') ) . '</li>';
+	$items_wrap .= '</ul>';
+
+	wp_nav_menu( array(
+		'theme_location' => 'footer-1',
+		'container' => false,
+		'menu_class' => 'menu simple align-center',
+		'depth' => 1,
+		'fallback_cb' => false,
+		'items_wrap' => $items_wrap,
+		'walker' => new Foundation6_Walker_Nav_Menu,
+		) );
+
+	echo '</div>';
+}
+
+function __footer_f6_copyright_2() {
+	echo '<div class="cell small-12">';
+
+	$items_wrap = '<ul id="%1$s" class="%2$s">';
+	$items_wrap .= '<li class="menu-text">' . apply_filters( 'atlatl_get_copyright', '&copy; ' .  wpb_copyright_date() . ' ' . get_bloginfo('name') ) . '</li>';
+	$items_wrap .= '%3$s';
+	$items_wrap .= '</ul>';
+
+	wp_nav_menu( array(
+		'theme_location' => 'footer-2',
+		'container' => false,
+		'menu_class' => 'menu simple align-center',
+		'depth' => 1,
+		'fallback_cb' => false,
+		'items_wrap' => $items_wrap,
+		'walker' => new Foundation6_Walker_Nav_Menu,
+		) );
+
+	echo '</div>';
+}
+
+function __footer_f6_copyright_12() {
+	echo '<div class="cell small-12 medium-6 large-4 large-order-1">';
+	wp_nav_menu( array(
+		'theme_location' => 'footer-1',
+		'container' => false,
+		'menu_class' => 'menu simple align-left',
+		'depth' => 1,
+		'fallback_cb' => false,
+		'walker' => new Foundation6_Walker_Nav_Menu,
+		) );
+	echo '</div>';
+
+	// -----
+
+	echo '<div class="cell small-12 medium-6 large-4 large-order-3">';
+	wp_nav_menu( array(
+		'theme_location' => 'footer-2',
+		'container' => false,
+		'menu_class' => 'menu simple align-right',
+		'depth' => 1,
+		'fallback_cb' => false,
+		'walker' => new Foundation6_Walker_Nav_Menu,
+		) );
+	echo '</div>';
+
+	// -----
+
+	echo '<div class="cell small-12 medium-12 large-4 text-center large-order-2">';
+	echo apply_filters( 'atlatl_get_copyright', '&copy; ' .  wpb_copyright_date() . ' ' . get_bloginfo('name') );
+	echo '</div>';
+}
+
+function tha_footer_f6_copyright() {
+	if ( (atlatl_get_sidebar_bits() & 120) != 0 )
+		echo '</div><div class="grid-x grid-padding-x grid-padding-y">';
+
+	$fm1 = has_nav_menu('footer-1');
+	$fm2 = has_nav_menu('footer-2');
+
+	if ($fm1 && $fm2) __footer_f6_copyright_12();
+	elseif ($fm1) __footer_f6_copyright_1();
+	elseif ($fm2) __footer_f6_copyright_2();
+	else __footer_f6_copyright_0();
+}
+
 add_action( 'tha_footer_bottom', 'tha_footer_f6_copyright', 40, 0 );
+
+function foundation6_footer_nav_menu_css_class( $classes, $item, $args ) {
+	if ( ('footer-1' === $args->theme_location) || ('footer-2' === $args->theme_location) )
+		if (($key = array_search('is-active', $classes)) !== false)
+			unset($classes[$key]);
+
+ 	return $classes;
+}
+
+add_filter( 'nav_menu_css_class', 'foundation6_footer_nav_menu_css_class', 20, 3 );

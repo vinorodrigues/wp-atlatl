@@ -70,8 +70,6 @@ add_action('wp_loaded', 'atlatl_f6_wp_loaded', 60);
 function atlatl_f6_setup_theme() {
 	register_nav_menus( array(
 //		'header'  => 'Header Menu',
-		'footer-1'  => '1st Footer Menu',
-		'footer-2'  => '2nd Footer Menu',
 		) );
 }
 

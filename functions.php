@@ -222,7 +222,9 @@ function atlatl_setup_theme() {
 	// add_image_size( 'featured-image', FEATURED_IMAGE_X, FEATURED_IMAGE_Y, true);
 
 	register_nav_menus( array(
-		'primary' => 'Primary Menu',
+		'primary'  => 'Primary Menu',
+		'footer-1' => 'Left Footer Menu',
+		'footer-2' => 'Right Footer Menu',
 		) );
 
 	add_theme_support( 'html5', array(
