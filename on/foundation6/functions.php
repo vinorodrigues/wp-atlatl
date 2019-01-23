@@ -42,9 +42,12 @@ function atlatl_f6_end_2_divs() {
 
 function atlatl_f6_wp_loaded() {
 	include_once( 'menu-walker.php' );
+	$pos = atlatl_get_header_position();
+	if ( ('lft' == $pos) || ('mid' == $pos) || ('rgt' == $pos) )
+		include_once( 'func-head-' . $pos . '.php' );
 	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
-	$cpos = atlatl_get_content_position();
-	include_once( 'func-cpos-' . $cpos . '.php' );
+	$pos = atlatl_get_content_position();
+	include_once( 'func-cpos-' . $pos . '.php' );
 	include_once( 'func-menus.php' );
 	include_once( 'func-footer.php' );
 

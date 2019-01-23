@@ -209,6 +209,11 @@ function atlatl_get_content_position() {
 	return $cpos;
 }
 
+function atlatl_get_header_position() {
+	$hpos = atlatl_get_setting( 'logo_placement' );
+
+	return $hpos;
+}
 
 // ----------------------------------------------------------------------------
 
