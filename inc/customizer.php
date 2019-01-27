@@ -54,10 +54,23 @@ function atlatl_customize_register( $wp_customize ) {
 
 	// ----- Site Identity -----
 
+	$wp_customize->add_setting( 'retina_logo', array(
+		'type' => 'theme_mod',
+		'capability' => 'edit_theme_options',
+		'default' => false
+		) );
+
 	$wp_customize->add_setting( 'logo_placement', array(
 		'type' => 'theme_mod',
 		'capability' => 'edit_theme_options',
 		'default' => atlatl_get_default( 'logo_placement' )
+		) );
+
+	$wp_customize->add_control('retina_logo', array(
+		'label'   => 'Use Retina Logo',
+		'section' => 'title_tagline',
+		'priority' => 9,
+		'type'    => 'checkbox'
 		) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(

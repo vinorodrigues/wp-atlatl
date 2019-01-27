@@ -613,4 +613,12 @@ ol.list-upper-roman {
   overflow: hidden !important;
 }
 
+.alignleft {
+  margin-right: 1rem;
+}
+
+.alignright {
+  margin-left: 1rem;
+}
+
 /*# sourceMappingURL=style.css.map */

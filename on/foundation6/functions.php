@@ -42,12 +42,10 @@ function atlatl_f6_end_2_divs() {
 
 function atlatl_f6_wp_loaded() {
 	include_once( 'menu-walker.php' );
-	$pos = atlatl_get_header_position();
-	if ( ('lft' == $pos) || ('mid' == $pos) || ('rgt' == $pos) )
-		include_once( 'func-head-' . $pos . '.php' );
 	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
 	$pos = atlatl_get_content_position();
 	include_once( 'func-cpos-' . $pos . '.php' );
+	include_once( 'func-header.php' );
 	include_once( 'func-menus.php' );
 	include_once( 'func-footer.php' );
 
@@ -70,13 +68,12 @@ function atlatl_f6_wp_loaded() {
 
 add_action('wp_loaded', 'atlatl_f6_wp_loaded', 60);
 
-function atlatl_f6_setup_theme() {
-	register_nav_menus( array(
-//		'header'  => 'Header Menu',
-		) );
-}
+// function atlatl_f6_setup_theme() {
+// 	register_nav_menus( array(
+// 		) );
+// }
 
-add_action( 'after_setup_theme', 'atlatl_f6_setup_theme', 60 );
+// add_action( 'after_setup_theme', 'atlatl_f6_setup_theme', 60 );
 
 
 // ----------------------------------------------------------------------------

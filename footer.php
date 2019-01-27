@@ -51,8 +51,8 @@ tha_container_after();
 
 tha_footer_before();
 
-$class = apply_filters( 'atlatl_footer_class', '' );
-echo '<footer'; if (!empty($class)) echo ' class="' . $class . '"'; echo '>' . PHP_EOL;
+$class = apply_filters( 'atlatl_footer_class', 'site-footer' );
+echo '<footer id="colophon"'; if (!empty($class)) echo ' class="' . $class . '"'; echo '>' . PHP_EOL;
 tha_footer_top();
 
 if (count($fsbr) > 0) {

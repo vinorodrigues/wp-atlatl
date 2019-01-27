@@ -193,25 +193,24 @@ function atlatl_get_content_position() {
 		case 'btm2':
 		case 'btm12': $cpos = 'btm';  break;
 
-		case 'cnt1':
+		case 'cnt2':
 		case 'dlf1':
 		case 'dlf2':
 		case 'slf1':
 		case 'slf2':  $cpos = 'slf';  break;
 
-		case 'cnt2':
+		case 'cnt1':
 		case 'drt1':
 		case 'drt2':
 		case 'srt1':
 		case 'srt2':  $cpos = 'srt';  break;
-	}  /* */
+	}
 
 	return $cpos;
 }
 
 function atlatl_get_header_position() {
 	$hpos = atlatl_get_setting( 'logo_placement' );
-
 	return $hpos;
 }
 
@@ -228,6 +227,7 @@ function atlatl_setup_theme() {
 
 	register_nav_menus( array(
 		'primary'  => 'Primary Menu',
+		'header'   => 'Header Menu',
 		'footer-1' => 'Left Footer Menu',
 		'footer-2' => 'Right Footer Menu',
 		) );
@@ -296,13 +296,20 @@ function atlatl_widgets_init() {
 		'after_title'   => '</' . $tag . '>',
 		) );
 
+	$hpos = atlatl_get_header_position();
+	$class = 'widget-';
+	switch ($hpos) {
+		case 'lft': $class .= 'right'; break;
+		case 'rgt': $class .= 'left'; break;
+		default: $class .= 'center';
+	}
 	register_sidebar( array(
 		'name'          => 'Header-bar',
 		'id'            => 'sidebar-3',
 		'description'   => 'Placed besides the Site Title or Site Logo',
-		'before_widget' => '<aside class="widget widget-header h-i %2$s">',
+		'before_widget' => '<aside class="widget widget-header ' . $class . ' %2$s">',
 		'after_widget'  => '</aside>',
-		'before_title'  => '<' . $tag . ' class="hidden-xs-up" hidden>',
+		'before_title'  => '<' . $tag . ' class="hidden" hidden>',
 		'after_title'   => '</' . $tag . '>',
 		) );
 

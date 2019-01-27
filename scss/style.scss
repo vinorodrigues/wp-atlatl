@@ -105,3 +105,32 @@
 .hidden {
 	display: none;
 }
+
+main {
+	img {
+		max-width: 100% !important;
+		object-fit: contain;
+	}
+	figure {
+		max-width: 100% !important;
+	}
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.site-title,
+.site-description {
+	margin: 0;
+}

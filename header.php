@@ -18,7 +18,7 @@ tha_body_top();
 
 function atlatl_do_header($class = '') {
 	tha_header_before();
-	echo '<header';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+	echo '<header id="masthead"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 	tha_header_top();
 
 	echo apply_filters( 'atlatl_get_header', '<!-- DO HEADER HERE -->' );
@@ -42,7 +42,7 @@ function atlatl_do_nav($class = '') {
 	}
 }
 
-atlatl_do_header( apply_filters( 'atlatl_header_class', '' ) );
+atlatl_do_header( apply_filters( 'atlatl_header_class', 'site-header' ) );
 atlatl_do_nav( apply_filters( 'atlatl_nav_class', '' ) );
 
 tha_container_before();

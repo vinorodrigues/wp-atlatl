@@ -19,7 +19,7 @@ if ((atlatl_get_sidebar_bits() & 3) != 0) {
 			do_action( 'tha_sidebar_' . $j . '_top', array($i) );
 
 			echo '<section id="sidebar" class="sidebar-' . $i . '">';
-			dynamic_sidebar( 'sidebar-' . $i );
+			dynamic_sidebar( $i );
 			echo '</section>';
 
 			do_action( 'tha_sidebar_' . $j . '_bottom', array($i) );
