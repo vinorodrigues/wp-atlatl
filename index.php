@@ -2,18 +2,23 @@
 
 get_header();
 
-?>
+if (have_posts()) {
+	while (have_posts()) {
+		the_post();
 
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-	<h1><?php the_title(); ?></h1>
-	<h4>Posted on <?php the_time('F jS, Y') ?></h4>
-	<p><?php the_content(__('(more...)')); ?></p>
-	<hr>
-<?php endwhile; else: ?>
-	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
-<?php endif; ?>
+		tha_entry_before();
 
-<?php
+		get_template_part( 'on/' . THEME_ENGINE . '/content', get_post_format() );
+
+		tha_entry_after();
+	}
+} else {
+	tha_entry_before();
+
+	get_template_part( 'on/' . THEME_ENGINE . '/content', 'empty' );
+
+	tha_entry_after();
+}
 
 get_sidebar();
 get_footer();

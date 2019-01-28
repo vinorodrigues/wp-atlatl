@@ -41,7 +41,7 @@ function atlatl_f6_end_2_divs() {
 // ----- Layout -----
 
 function atlatl_f6_wp_loaded() {
-	include_once( 'menu-walker.php' );
+	include_once( 'class-wp-foundation6-nav-menu.php' );
 	include_once( 'func-cont-' . atlatl_get_setting( 'container_position' ) . '.php' );
 	$pos = atlatl_get_content_position();
 	include_once( 'func-cpos-' . $pos . '.php' );

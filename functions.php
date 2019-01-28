@@ -138,6 +138,63 @@ function atlatl_get_setting( $option ) {
 	return $value;
 }
 
+function atlatl_get_custom_logo($classes = array(), $blog_id = 0) {
+	$html = '';
+	$switched_blog = false;
+
+	if ( is_multisite() && ! empty( $blog_id ) && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
+		$switched_blog = true;
+	}
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$classes[] = 'custom-logo';
+
+	if ( $custom_logo_id ) {
+		$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+		if ($image) {
+			list($src, $w, $h) = $image;
+
+			$attr = array(
+				'src' => $src,
+				'itemprop' => 'logo',
+				);
+
+			$image_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
+			$attachment = get_post( $custom_logo_id );
+			if ( empty( $image_alt ) )
+				$image_alt = get_bloginfo( 'name', 'display' );
+			$attr['alt'] = $image_alt;
+
+			if ( boolval( get_theme_mod( 'retina_logo' ) ) ) {
+				$classes[] = 'retina-image';
+				$w = intval( $w / 2);
+				$h = intval( $h / 2);
+			}
+			$attr['class'] = implode(' ', $classes);
+
+			$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, 'full' );
+			$attr = array_map( 'esc_attr', $attr );
+
+			$image = '<img';
+			$image .= ' width="' . $w . '"';
+			$image .= ' height="' . $h . '"';
+			foreach ( $attr as $name => $value )
+				$image .= ' ' . $name . '="' . $value . '"';
+			$image .= ' />';
+
+			$html = sprintf( '<a href="%1$s" class="custom-logo-link" rel="home" itemprop="url">%2$s</a>',
+				esc_url( home_url( '/' ) ), $image );
+    	}
+    }
+	elseif ( is_customize_preview() ) {
+		$html = sprintf( '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="' . implode(' ', $classes) . '"/></a>',
+			esc_url( home_url( '/' ) ) );
+	}
+
+	if ( $switched_blog ) restore_current_blog();
+    return apply_filters( 'get_custom_logo', $html, $blog_id );
+}
+
 /**
  * Bitwize mask of set sidebars
  *

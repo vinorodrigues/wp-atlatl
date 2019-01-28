@@ -19,32 +19,13 @@
 function __get_f6_header_branding($hpos = '') {
 	$out = '';
 	if ( has_custom_logo() ) {
-		$custom_logo_id = get_theme_mod( 'custom_logo' );
-		$logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-		$w = $logo[1];
-		$h = $logo[2];
-		$r = boolval( get_theme_mod( 'retina_logo' ) );
-		$classes = array('custom-logo');
-		$classes[] = 'w' . $w;
-		$classes[] = 'h' . $h;
-
+		$classes = array();
 		switch ($hpos) {
 			case 'lft': $classes[] = 'float-left'; break;
 			case 'rgt': $classes[] = 'float-right'; break;
 			default: $classes[] = 'float-center'; break;
 		}
-
-		if ( $r ) {
-			$classes[] = 'retina-image';
-			$w = intval( $w / 2);
-			$h = intval( $h / 2);
-		}
-		$out .= '<a href="' . esc_url( home_url( '/' ) ) . '" rel="home">';
-		$out .= '<img class="' . implode(' ', $classes) . '"';
-		$out .= ' width="' . $w . '" height="' . $h . '" src="'. esc_url( $logo[0] ) .'"';
-		$out .= ' alt="' . esc_attr( get_bloginfo( 'name' ) ) . '"';
-		$out .= ' />';
-		$out .= '</a>';
+		$out .= atlatl_get_custom_logo( $classes );
 	} else {
 		$classes = array('site-title');
 		switch ($hpos) {

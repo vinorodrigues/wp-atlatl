@@ -216,7 +216,6 @@ class Foundation6_Walker_Nav_Menu extends Walker_Nav_Menu {
 function foundation6_nav_menu_css_class( $classes ) {
 	if ( in_array('current-menu-item', $classes) || in_array( 'current-menu-ancestor', $classes) )
 		$classes[] = 'is-active';
-
 	return $classes;
 }
 
