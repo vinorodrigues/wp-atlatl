@@ -67,7 +67,7 @@ function atlatl_customize_register( $wp_customize ) {
 		) );
 
 	$wp_customize->add_control('retina_logo', array(
-		'label'   => 'Use Retina Logo',
+		'label'   => _x('Use Retina Logo', 'conf', 'wp-atlatl'),
 		'section' => 'title_tagline',
 		'priority' => 9,
 		'type'    => 'checkbox'
@@ -77,7 +77,7 @@ function atlatl_customize_register( $wp_customize ) {
 		$wp_customize, 'logo_placement', array(
 			'settings' => 'logo_placement',
 			'section'  => 'title_tagline',  // Site Title & Tagline
-			'label'    => 'Logo Placement',
+			'label'    => _x('Logo Placement', 'conf', 'wp-atlatl'),
 			'priority' => 9,
 			'prefix'   => 'cust-logo-',
 			'choices'  => array(
@@ -91,7 +91,7 @@ function atlatl_customize_register( $wp_customize ) {
 	// ----- Layout -----
 
 	$wp_customize->add_section( 'cust_layout', array(
-		'title'    => 'Layout',
+		'title'    => _x('Layout', 'conf', 'wp-atlatl'),
 		'priority' => 35,
 		) );
 
@@ -120,48 +120,48 @@ function atlatl_customize_register( $wp_customize ) {
 		$wp_customize, 'menu_position', array(
 			'settings' => 'menu_position',
 			'section'  => 'cust_layout',
-			'label'    => 'Menu Position',
+			'label'    => _x('Menu Position', 'conf', 'wp-atlatl'),
 			'prefix'   => 'cust-menu-',
 			'choices'  => array(
-				'pag' => 'In Page',
-				'top' => 'On Top',
+				'pag' => _x('In Page', 'conf', 'wp-atlatl'),
+				'top' => _x('On Top', 'conf', 'wp-atlatl'),
 				) ) ) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'container_position', array(
 			'settings' => 'container_position',
 			'section'  => 'cust_layout',
-			'label'    => 'Container Position',
+			'label'    => _x('Container Position', 'conf', 'wp-atlatl'),
 			'prefix'   => 'cust-cont-',
 			'choices'  => array(
-				'pag' => 'Whole Page',
-				'con' => 'Content Only',
+				'pag' => _x('Whole Page', 'conf', 'wp-atlatl'),
+				'con' => _x('Content Only', 'conf', 'wp-atlatl'),
 				) ) ) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'container_width', array(
 			'settings' => 'container_width',
 			'section'  => 'cust_layout',
-			'label'    => 'Container Width',
+			'label'    => _x('Container Width', 'conf', 'wp-atlatl'),
 			'prefix'   => 'cust-wdth-',
 			'choices'  => array(
-				'cnt' => 'Responsive fixed-width',
-				'fld' => 'Fluid',
+				'cnt' => _x('Responsive fixed-width', 'conf', 'wp-atlatl'),
+				'fld' => _x('Fluid', 'conf', 'wp-atlatl'),
 				) ) ) );
 
 	$wp_customize->add_control( new Image_Customize_Radio_Control(
 		$wp_customize, 'content_position', array(
 			'settings' => 'content_position',
 			'section'  => 'cust_layout',
-			'label'    => 'Content Position',
+			'label'    => _x('Content Position', 'conf', 'wp-atlatl'),
 			'prefix'   => 'cust-cpos-',
 			'choices'  => array(
-				'btm' => 'Whole Page',
-				'dlf' => 'Narrow Right',
-				'slf' => 'Wide Right',
-				'cnt' => 'Centered',
-				'drt' => 'Narrow Left',
-				'srt' => 'Wide Left',
+				'btm' => _x('Whole Page', 'conf', 'wp-atlatl'),
+				'dlf' => _x('Narrow Right', 'conf', 'wp-atlatl'),
+				'slf' => _x('Wide Right', 'conf', 'wp-atlatl'),
+				'cnt' => _x('Centered', 'conf', 'wp-atlatl'),
+				'drt' => _x('Narrow Left', 'conf', 'wp-atlatl'),
+				'srt' => _x('Wide Left', 'conf', 'wp-atlatl'),
 				) ) ) );
 }
 

@@ -23,15 +23,31 @@ include_once( get_theme_file_path('config.php') );
 
 if (!defined('THEME_ENGINE'))
 	define('THEME_ENGINE', 'foundation6');
+if (!defined('ICON_ENGINE'))
+	define( 'ICON_ENGINE', 'foundation-icons3' );
 
 include_once( 'lib/tha-theme-hooks.php' );
 include_once( 'lib/lib-ts/raw-scripts.php' );
 include_once( 'lib/lib-ts/raw-styles.php' );
 include_once( 'on/' . THEME_ENGINE . '/functions.php' );
+include_once( 'font/' . ICON_ENGINE . '/functions.php' );
 include_once( 'inc/customizer.php' );
 if (defined('WP_DEBUG') && WP_DEBUG && file_exists(get_template_directory().'/inc/~debug.php'))
 	include_once( 'inc/~debug.php' );
 
+if (!function_exists('icon')) { function icon($key) { return ''; } }
+
+function _i($icon, $content, $icon_first = true) {
+	$i = icon($icon);
+	if (!empty($i)) {
+		if ($icon_first)
+			return sprintf(esc_html_x('%1$s %2$s', 'icon', 'wp-atlatl'), $i, $content);
+		else
+			return sprintf(esc_html_x('%2$s %1$s', 'icon', 'wp-atlatl'), $i, $content);
+	} else {
+		return $content;
+	}
+}
 
 // ----------------------------------------------------------------------------
 // Helper functions
@@ -71,7 +87,7 @@ if (defined('WP_DEBUG') && WP_DEBUG && (!function_exists('GUID'))) {
 
 if (defined('WP_DEBUG') && WP_DEBUG) {
 	function atlatl_wp_debug_body_class( $classes ) {
-		$classes[] = 'WP_DEBUG';
+		$classes[] = 'WP-DEBUG';
 		$classes[] = 'layout-' .
 			atlatl_get_setting( 'content_position' ) . '-' .
 			atlatl_get_content_position() . '-' .
@@ -84,7 +100,7 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 
 if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
 	function atlatl_script_debug_body_class( $classes ) {
-		$classes[] = 'SCRIPT_DEBUG';
+		$classes[] = 'SCRIPT-DEBUG';
 		return $classes;
 	}
 
@@ -112,6 +128,11 @@ if (!function_exists('wpb_copyright_date')) {
 		}
 		return $output;
 	}
+}
+
+function is_last_post() {
+	global $wp_query;
+	return ($wp_query->current_post + 1) == ($wp_query->post_count);
 }
 
 
@@ -324,6 +345,8 @@ function atlatl_setup_theme() {
 		'sidebar',
 		'footer',
 		) );
+
+	load_theme_textdomain('wp-atlatl', get_template_directory() . '/lang');
 }
 
 add_action( 'after_setup_theme', 'atlatl_setup_theme', 50 );
@@ -454,11 +477,159 @@ function atlatl_login_css() {
 add_action('login_head', 'atlatl_login_css');
 
 // Create a permalink after the excerpt
-function atlatl_the_excerpt($content) {
-	return str_replace(' [...]',
-		'<a class="readmore" href="'. get_permalink() .'">' .
-		__('Read More', 'wp-atlatl') . '</a>',
-		$content );
-}
-add_filter('the_excerpt', 'atlatl_the_excerpt');
+// function atlatl_the_excerpt($content) {
+// 	return str_replace(' [...]',
+// 		'<a class="readmore" href="'. get_permalink() .'">' .
+// 		_x('Read More', 'excerpt', 'wp-atlatl') . '</a>',
+// 		$content );
+// }
 
+// add_filter('the_excerpt', 'atlatl_the_excerpt');
+
+// paginate_links() clone
+function atlatl_paginate_links( $args = '' ) {
+	global $wp_query, $wp_rewrite;
+
+	// Setting up default values based on the current URL.
+	$pagenum_link = html_entity_decode( get_pagenum_link() );
+	$url_parts    = explode( '?', $pagenum_link );
+
+	// Get max pages and current page out of the current query, if available.
+	$total   = isset( $wp_query->max_num_pages ) ? $wp_query->max_num_pages : 1;
+	$current = get_query_var( 'paged' ) ? intval( get_query_var( 'paged' ) ) : 1;
+
+	// Append the format placeholder to the base URL.
+	$pagenum_link = trailingslashit( $url_parts[0] ) . '%_%';
+
+	// URL base depends on permalink settings.
+	$format  = $wp_rewrite->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
+	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
+
+	$defaults = array(
+		'base'               => $pagenum_link,  // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
+		'format'             => $format,  // ?page=%#% : %#% is replaced by the page number
+		'total'              => $total,
+		'current'            => $current,
+		'aria_current'       => 'page',
+		'show_all'           => false,
+		'prev_next'          => true,
+		'prev_text'          => _x( 'Previous', 'pagination', 'wp-atlatl' ),
+		'next_text'          => _x( 'Next',     'pagination', 'wp-atlatl' ),
+		'hellip_text'        => _x( '&hellip;', 'pagination', 'wp-atlatl' ),
+		'end_size'           => 1,
+		'mid_size'           => 2,
+		'type'               => 'plain',
+		'add_args'           => array(), // array of query args to add
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( ! is_array( $args['add_args'] ) ) {
+		$args['add_args'] = array();
+	}
+
+	// Merge additional query vars found in the original URL into 'add_args' array.
+	if ( isset( $url_parts[1] ) ) {
+		// Find the format argument.
+		$format = explode( '?', str_replace( '%_%', $args['format'], $args['base'] ) );
+		$format_query = isset( $format[1] ) ? $format[1] : '';
+		wp_parse_str( $format_query, $format_args );
+
+		// Find the query args of the requested URL.
+		wp_parse_str( $url_parts[1], $url_query_args );
+
+		// Remove the format argument from the array of query arguments, to avoid overwriting custom format.
+		foreach ( $format_args as $format_arg => $format_arg_value ) {
+			unset( $url_query_args[ $format_arg ] );
+		}
+
+		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
+	}
+
+	// Who knows what else people pass in $args
+	$total = (int) $args['total'];
+	if ( $total < 2 ) {
+		return;
+	}
+	$current  = (int) $args['current'];
+	$end_size = (int) $args['end_size']; // Out of bounds?  Make it the default.
+	if ( $end_size < 1 ) {
+		$end_size = 1;
+	}
+	$mid_size = (int) $args['mid_size'];
+	if ( $mid_size < 0 ) {
+		$mid_size = 2;
+	}
+	$add_args = $args['add_args'];
+	$r = '';
+	$page_links = array();
+	$dots = false;
+
+	if ( $args['prev_next'] && $current && 1 < $current ) :
+		$link = str_replace( '%_%', 2 == $current ? '' : $args['format'], $args['base'] );
+		$link = str_replace( '%#%', $current - 1, $link );
+		if ( $add_args )
+			$link = add_query_arg( $add_args, $link );
+
+		$page_links[] = array( $args['prev_text'], apply_filters( 'paginate_links', $link ), 'p' );
+	elseif ( $args['prev_next'] ) :
+		$page_links[] = array( $args['prev_text'], null, 'p' );
+	endif;
+
+	for ( $n = 1; $n <= $total; $n++ ) :
+		if ( $n == $current ) :
+			$page_links[] = array( number_format_i18n( $n ), null, 'c' );
+			$dots = true;
+		else :
+			if ( $args['show_all'] || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
+				$link = str_replace( '%_%', 1 == $n ? '' : $args['format'], $args['base'] );
+				$link = str_replace( '%#%', $n, $link );
+				if ( $add_args )
+					$link = add_query_arg( $add_args, $link );
+
+				$page_links[] = array( number_format_i18n( $n ), apply_filters( 'paginate_links', $link ), 'l' );
+				$dots = true;
+			elseif ( $dots && ! $args['show_all'] ) :
+				$page_links[] = array( $args['hellip_text'], null, 'e' );
+				$dots = false;
+			endif;
+		endif;
+	endfor;
+
+	if ( $args['prev_next'] && $current && $current < $total ) :
+		$link = str_replace( '%_%', $args['format'], $args['base'] );
+		$link = str_replace( '%#%', $current + 1, $link );
+		if ( $add_args )
+			$link = add_query_arg( $add_args, $link );
+
+		$page_links[] = array( $args['next_text'], apply_filters( 'paginate_links', $link ), 'n' );
+	elseif ( $args['prev_next'] ) :
+		$page_links[] = array( $args['next_text'], null, 'n' );
+	endif;
+
+	switch ( $args['type'] ) {
+		case 'array' :
+			return $page_links;
+
+		case 'list' :
+			$r .= '<ul>';
+			foreach ($page_links as $p) {
+				$r .= '<li>';
+				if (!is_null($p[1])) $r .= '<a href="' . $p[1] . '">';
+				$r .= $p[0];
+				if (!is_null($p[1])) $r .= '</a>';
+				$r .= '</li>';
+			}
+			$r .= '</ul>';
+			break;
+
+		default :
+			foreach ($page_links as $p) {
+				if (!is_null($p[1])) $r .= '<a href="' . $p[1] . '">';
+				$r .= $p[0];
+				if (!is_null($p[1])) $r .= '</a>';
+				$r .= PHP_EOL;
+			}
+	}
+	return $r;
+}

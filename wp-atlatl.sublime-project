@@ -8,8 +8,7 @@
 				"img",
 				"node_modules",
 				"on",
-				"on/foundation6",
-				"on/bootstrap4",
+				"font",
 				"vendor"
 			],
 			"file_exclude_patterns": [
@@ -22,7 +21,7 @@
 		},
 		{
 			"path": "on/foundation6",
-			"name": "Foundation 6",
+			"name": "ON: Foundation 6",
 			"folder_exclude_patterns": [
 				"css",
 				"js"
@@ -31,11 +30,26 @@
 		},
 		{
 			"path": "on/bootstrap4",
-			"name": "Bootstrap 4",
+			"name": "ON: Bootstrap 4",
 			"folder_exclude_patterns": [
 				"css",
 				"js"
 			],
+			"follow_symlinks": false
+		},
+		{
+			"path": "font/foundation-icons3",
+			"name": "#F: Foundation Icons 3",
+			"follow_symlinks": false
+		},
+		{
+			"path": "font/font-awesome4",
+			"name": "#F: Font Awesome 4",
+			"follow_symlinks": false
+		},
+		{
+			"path": "font/font-awesome5",
+			"name": "#F: Font Awesome 5",
 			"follow_symlinks": false
 		}
 	],

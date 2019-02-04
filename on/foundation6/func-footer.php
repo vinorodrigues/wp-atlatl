@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------
 // ----- Footer -----
 
+
 function atlatl_f6_footer_top() {
 	echo '<div class="grid-x grid-padding-x grid-padding-y">';
 }

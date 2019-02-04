@@ -12,6 +12,8 @@ if (have_posts()) {
 
 		tha_entry_after();
 	}
+
+	get_template_part( 'on/' . THEME_ENGINE . '/prevnext', get_post_format() );
 } else {
 	tha_entry_before();
 

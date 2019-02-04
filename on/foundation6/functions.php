@@ -36,6 +36,9 @@ function atlatl_f6_end_2_divs() {
 	echo '</div></div>';
 }
 
+function atlatl_f6_end_3_divs() {
+	echo '</div></div></div>';
+}
 
 // ----------------------------------------------------------------------------
 // ----- Layout -----

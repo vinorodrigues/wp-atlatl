@@ -1,3 +1,8 @@
+.hentry {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+
 .hidden {
   display: none;
 }
@@ -28,6 +33,10 @@ main figure {
 .site-title,
 .site-description {
   margin: 0;
+}
+
+.separator {
+  visibility: hidden;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -71,6 +71,10 @@
 // hr {}
 // del {}
 
+.hentry {
+	-ms-word-wrap: break-word;
+	word-wrap: break-word;
+}
 
 // This is a style that relates to different page headers. h1's & h2's
 // .entry-title {
@@ -133,4 +137,8 @@ main {
 .site-title,
 .site-description {
 	margin: 0;
+}
+
+.separator {
+	visibility: hidden;
 }

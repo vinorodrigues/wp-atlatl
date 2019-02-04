@@ -31,7 +31,7 @@ function atlatl_do_header($class = '') {
 function atlatl_do_nav($class = '') {
 	if (has_nav_menu('primary')) {
 		tha_nav_before();
-		echo '<nav';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
+		echo '<nav id="nav-bar"';  if (!empty($class)) echo ' class="'.$class.'"';  echo '>';
 		tha_nav_top();
 
 		echo apply_filters( 'atlatl_get_nav', '<!-- DO NAV HERE -->', 'primary' );
