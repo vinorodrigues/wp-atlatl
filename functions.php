@@ -1,5 +1,10 @@
 <?php
 
+// define( 'POST_THUMBNAIL_X', 200);
+// define( 'POST_THUMBNAIL_Y', 200);
+// define( 'FEATURED_IMAGE_X', 1170);
+// define( 'FEATURED_IMAGE_Y', 200);
+
 // Customise the footer in admin area
 function atlatl_admin_footer_text () {
 	echo 'WP-Altatl theme designed and developed by' .

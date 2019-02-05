@@ -4,7 +4,7 @@
  */
 
 define( 'THEME_ENGINE', 'foundation6' );  // can be:  foundation6, bootstrap4
-define( 'ICON_ENGINE', 'foundation-icons3' );  // can be:  font-awesome5, font-awesome4, or foundation-icons3
+define( 'ICON_ENGINE', 'unicode' );  // can be:  unicode, font-awesome5, font-awesome4, or foundation-icons3
 
 /* ----- Dependancies ----- */
 

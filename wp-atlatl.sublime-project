@@ -43,6 +43,11 @@
 			"follow_symlinks": false
 		},
 		{
+			"path": "font/unicode",
+			"name": "#F: Unicode",
+			"follow_symlinks": false
+		},
+		{
 			"path": "font/font-awesome4",
 			"name": "#F: Font Awesome 4",
 			"follow_symlinks": false

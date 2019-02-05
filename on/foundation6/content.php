@@ -75,6 +75,11 @@ foreach ($pcats as $c) {
 			echo '<span class="separator">' . _x(' ', 'separator', 'wp-atlatl') . '</span>';
 			echo __('by', 'wp-atlatl') . ' ' . _i('user', get_the_author_posts_link());
 			echo '</div>';
+
+			<?php
+			$el = edit_post_link( __( 'Edit', 'bootstrap2' ), '<span class="edit-link">', '</span>' );
+			// todo : edit button
+			?>
 		}
 	}
 
