@@ -4,7 +4,7 @@
  */
 
 define( 'THEME_ENGINE', 'foundation6' );  // can be:  foundation6, bootstrap4
-define( 'ICON_ENGINE', 'font-awesome4' /*'foundation-icons3'/**/ );  // can be:  unicode, font-awesome5, font-awesome4, or foundation-icons3
+define( 'ICON_ENGINE', 'foundation-icons3' );  // can be:  unicode, font-awesome5, font-awesome4, or foundation-icons3
 
 /* ----- Dependancies ----- */
 
@@ -16,5 +16,5 @@ define( 'JQUERY_VERSION', '3.3.1.slim' );  // Slim excludes ajax, effects, and c
 
 define( 'FI_VERSION', '3.0' );  // Foundation Icons Font
 
-define( 'FA_VERSION', '5.7.2' );  // Fontawesome 5 Free
-define( 'FA_STYLE', 'solid' );  // can be:  solid, regular
+// define( 'FA_VERSION', '5.7.2' );  // Fontawesome 5 Free
+// define( 'FA_STYLE', 'solid' );  // can be:  solid, regular
