@@ -9,19 +9,17 @@ if (have_posts()) {
 		tha_entry_before();
 
 		$pf = get_post_format();
+		if (false === $pf) $pf = 'singular';
 		get_template_part( 'on/' . THEME_ENGINE . '/content', $pf );
 
 		tha_entry_after();
+
+		// if ( comments_open() || 0 != intval(get_comments_number()) ) {
+		// 	comments_template( '/on/' . THEME_ENGINE . '/comments.php', true );
+		// }
 	}
 
-	$pf = '';
 	get_template_part( 'on/' . THEME_ENGINE . '/prevnext', $pf );
-} else {
-	tha_entry_before();
-
-	get_template_part( 'on/' . THEME_ENGINE . '/content', 'search' );
-
-	tha_entry_after();
 }
 
 get_sidebar();

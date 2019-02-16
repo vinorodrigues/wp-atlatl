@@ -27,19 +27,30 @@ function atlatl_fif6_scripts() {
 add_action('wp_enqueue_scripts', 'atlatl_fif6_scripts', 70);
 
 function icon($key) {
-
 	static $keys = array(
-		'user' => 'torso',
-		'cat'  => 'results',
-		'star' => 'star',
-		'date' => 'calendar',
-		'next' => 'arrow-right',
-		'prev' => 'arrow-left',
+		// ----- ABCDEFGHIJKLMNOPQRSTUVWXYZ -----
+		// 'alert'       => 'alert',
+		'cat'         => 'folder',
+		'date'        => 'calendar',
+		// 'info'        => 'info',
+		'login'       => 'lock',
+		'more'        => 'play',
+		'next'        => 'arrow-right',
+		'no-comments' => 'comment',
+		'n-comments'  => 'comments',
+		'one-comment' => 'comment',
+		'post-edit'   => 'pencil',
+		'prev'        => 'arrow-left',
+		'reply'       => 'arrow-left',
+		'search'      => 'magnifying-glass',
+		'star'        => 'star',
+		'tag'         => 'bookmark',
+		'user'        => 'torso',
 		);
 
 	$k = array_key_exists($key, $keys) ? $keys[$key] : null;
 	if (!is_null($k))
 		return '<i class="fi-' . $k . '"></i>';
 	else
-		return '';
+		return '<i class="fi-' . $key . '"></i>';
 }

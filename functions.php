@@ -5,6 +5,8 @@
 // define( 'FEATURED_IMAGE_X', 1170);
 // define( 'FEATURED_IMAGE_Y', 200);
 
+define( 'MAX_TITLE_LINK_LENGTH', 30 );
+
 // Customise the footer in admin area
 function atlatl_admin_footer_text () {
 	echo 'WP-Altatl theme designed and developed by' .
@@ -39,6 +41,9 @@ include_once( 'font/' . ICON_ENGINE . '/functions.php' );
 include_once( 'inc/customizer.php' );
 if (defined('WP_DEBUG') && WP_DEBUG && file_exists(get_template_directory().'/inc/~debug.php'))
 	include_once( 'inc/~debug.php' );
+
+// ----------------------------------------------------------------------------
+// ----- Icons -----
 
 if (!function_exists('icon')) { function icon($key) { return ''; } }
 
@@ -140,6 +145,16 @@ function is_last_post() {
 	return ($wp_query->current_post + 1) == ($wp_query->post_count);
 }
 
+if (!function_exists('delete_post_link')) {
+	function delete_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-delete-link' ) {
+		if ( ! $post = get_post( $id ) ) return;
+		if ( ! $url = get_delete_post_link( $post->ID ) ) return;
+		if ( null === $text ) $text = __( 'Delete This' );
+		$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . $text . '</a>';
+		echo $before . apply_filters( 'delete_post_link', $link, $post->ID, $text ) . $after;
+	}
+}
+
 
 // ----------------------------------------------------------------------------
 // Settings functions
@@ -210,15 +225,15 @@ function atlatl_get_custom_logo($classes = array(), $blog_id = 0) {
 
 			$html = sprintf( '<a href="%1$s" class="custom-logo-link" rel="home" itemprop="url">%2$s</a>',
 				esc_url( home_url( '/' ) ), $image );
-    	}
-    }
+		}
+	}
 	elseif ( is_customize_preview() ) {
 		$html = sprintf( '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="' . implode(' ', $classes) . '"/></a>',
 			esc_url( home_url( '/' ) ) );
 	}
 
 	if ( $switched_blog ) restore_current_blog();
-    return apply_filters( 'get_custom_logo', $html, $blog_id );
+	return apply_filters( 'get_custom_logo', $html, $blog_id );
 }
 
 /**
@@ -362,8 +377,8 @@ function atlatl_widgets_init() {
 	$tag = 'h4';
 
 	register_sidebar( array(
-		'name'          => 'Primary Sidebar',
-		'id'            => 'sidebar-1',
+		'name'		  => 'Primary Sidebar',
+		'id'			=> 'sidebar-1',
 		'description'   => '',
 		'before_widget' => '<aside class="widget widget-sidebar %2$s">',
 		'after_widget'  => '</aside>',
@@ -372,8 +387,8 @@ function atlatl_widgets_init() {
 		) );
 
 	register_sidebar( array(
-		'name'          => 'Secondary Sidebar',
-		'id'            => 'sidebar-2',
+		'name'		  => 'Secondary Sidebar',
+		'id'			=> 'sidebar-2',
 		'description'   => '',
 		'before_widget' => '<aside class="widget widget-sidebar %2$s">',
 		'after_widget'  => '</aside>',
@@ -389,8 +404,8 @@ function atlatl_widgets_init() {
 		default: $class .= 'center';
 	}
 	register_sidebar( array(
-		'name'          => 'Header-bar',
-		'id'            => 'sidebar-3',
+		'name'		  => 'Header-bar',
+		'id'			=> 'sidebar-3',
 		'description'   => 'Placed besides the Site Title or Site Logo',
 		'before_widget' => '<aside class="widget widget-header ' . $class . ' %2$s">',
 		'after_widget'  => '</aside>',
@@ -401,8 +416,8 @@ function atlatl_widgets_init() {
 	$n = array('1st', '2nd', '3rd', '4th');
 	for ($i = 1; $i <= 4; $i++) {
 		register_sidebar( array(
-			'name'          => $n[$i-1] . ' Footer-bar',
-			'id'            => 'sidebar-' . ($i+3),
+			'name'		  => $n[$i-1] . ' Footer-bar',
+			'id'			=> 'sidebar-' . ($i+3),
 			'description'   => '',
 			'before_widget' => '<aside class="widget widget-footer %2$s">',
 			'after_widget'  => '</aside>',
@@ -497,7 +512,7 @@ function atlatl_paginate_links( $args = '' ) {
 
 	// Setting up default values based on the current URL.
 	$pagenum_link = html_entity_decode( get_pagenum_link() );
-	$url_parts    = explode( '?', $pagenum_link );
+	$url_parts	= explode( '?', $pagenum_link );
 
 	// Get max pages and current page out of the current query, if available.
 	$total   = isset( $wp_query->max_num_pages ) ? $wp_query->max_num_pages : 1;
@@ -511,21 +526,21 @@ function atlatl_paginate_links( $args = '' ) {
 	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
 
 	$defaults = array(
-		'base'               => $pagenum_link,  // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-		'format'             => $format,  // ?page=%#% : %#% is replaced by the page number
-		'total'              => $total,
-		'current'            => $current,
-		'aria_current'       => 'page',
-		'show_all'           => false,
-		'prev_next'          => true,
-		'prev_text'          => _x( 'Previous', 'pagination', 'wp-atlatl' ),
-		'next_text'          => _x( 'Next',     'pagination', 'wp-atlatl' ),
-		'hellip_text'        => _x( '&hellip;', 'pagination', 'wp-atlatl' ),
-		'end_size'           => 1,
-		'mid_size'           => 2,
-		'type'               => 'plain',
-		'add_args'           => array(), // array of query args to add
-	);
+		'base'         => $pagenum_link,  // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
+		'format'       => $format,  // ?page=%#% : %#% is replaced by the page number
+		'total'        => $total,
+		'current'      => $current,
+		// 'aria_current' => 'page',
+		'show_all'     => false,
+		'prev_next'    => true,
+		'prev_text'    => _x( 'Previous', 'pagination', 'wp-atlatl' ),
+		'next_text'    => _x( 'Next', 'pagination', 'wp-atlatl' ),
+		'hellip_text'  => _x( '&hellip;', 'pagination', 'wp-atlatl' ),
+		'end_size'     => 1,
+		'mid_size'     => 2,
+		'type'         => 'plain',
+		'add_args'     => array(), // array of query args to add
+		);
 
 	$args = wp_parse_args( $args, $defaults );
 
@@ -638,3 +653,89 @@ function atlatl_paginate_links( $args = '' ) {
 	}
 	return $r;
 }
+
+function _atlatl_link_page( $i ) {
+	global $wp_rewrite;
+	$post = get_post();
+	$query_args = array();
+
+	if ( 1 == $i ) {
+		$url = get_permalink();
+	} else {
+		if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
+			$url = add_query_arg( 'page', $i, get_permalink() );
+		elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
+			$url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $i, 'single_paged');
+		else
+			$url = trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
+	}
+
+	if ( is_preview() ) {
+		if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
+			$query_args['preview_id'] = wp_unslash( $_GET['preview_id'] );
+			$query_args['preview_nonce'] = wp_unslash( $_GET['preview_nonce'] );
+		}
+		$url = get_preview_post_link( $post, $query_args, $url );
+	}
+
+	return $url;
+}
+
+// wp_link_pages clone
+function atlatl_link_pages( $args = '' ) {
+	global $page, $numpages, $multipage, $more;
+
+	$defaults = array(
+		'next_or_number'   => 'number',
+		'nextpagelink'     => __( 'Next page', 'wp-atlatl' ),
+		'previouspagelink' => __( 'Previous page', 'wp-atlatl' ),
+		'pagelink'         => '%',
+		'echo'             => 1
+		);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	$page_links = array();
+	if ( $multipage ) {
+		if ( 'number' == $r['next_or_number'] ) {
+			for ( $i = 1; $i <= $numpages; $i++ ) {
+				$text = str_replace( '%', $i, $r['pagelink'] );
+				$link = _atlatl_link_page( $i );
+				$page_links[] = array($text, $link, ( $i != $page || ! $more && 1 == $page ) ? 'l' : 'c');
+			}
+		} elseif ( $more ) {
+			$prev = $page - 1;
+			if ( $prev > 0 )
+				$link = _atlatl_link_page( $prev );
+			else
+				$link = null;
+			$page_links[] = array($r['previouspagelink'], $link, 'p');
+
+			$next = $page + 1;
+			if ( $next <= $numpages )
+				$link = _atlatl_link_page( $next );
+			else
+				$link = null;
+			$page_links[] = array($r['nextpagelink'], $link, 'n');
+		}
+	}
+
+	return $page_links;
+}
+
+function atlatl_adjacent_post_link( $output, $format, $link, $post, $adjacent ) {
+	$previous = ('next' != $adjacent);
+	if ( empty( $post->post_title ) )
+		return '';
+	else
+		$title = $post->post_title;
+	$rel = $previous ? 'prev' : 'next';
+	$href = '<a href="' . get_permalink( $post ) . '" rel="'.$rel.'">';
+	$title = str_replace( '%title', mb_strimwidth($title, 0, MAX_TITLE_LINK_LENGTH, '&hellip;'), $link );
+	$output = $href . $title . '</a>';
+	$output = str_replace( '%link', $output, $format );
+	return $output;
+}
+
+add_filter( 'next_post_link', 'atlatl_adjacent_post_link', 10, 5 );
+add_filter( 'previous_post_link', 'atlatl_adjacent_post_link', 10, 5 );

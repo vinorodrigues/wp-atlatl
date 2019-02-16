@@ -5,6 +5,8 @@
  * @since WP-Atlarl 0.1
  */
 
+global $post;
+
 $is_page = is_page();  // Determines whether the query is for an existing single page.
 $is_single = is_single();  // Determines whether the query is for an existing single post.
 $is_singular = is_singular();  // Determines whether the query is for an existing single post of any post type (post, attachment, page, custom post types).
@@ -42,19 +44,8 @@ foreach ($pcats as $c) {
 	<?php
 	tha_entry_top();
 
-	if ($is_post) {
-		$d = get_the_date();
-		if (!empty($c)) {
-			echo '<div class="entry-utility">';
-			$h = '<a href="' . get_day_link(get_the_time('Y'), get_the_time('m'), get_the_time('d')) . '">';
-			$h .= $d;
-			$h .= '</a>';
-			echo _i( 'date', $h );
-			echo '</div>';
-		}
-	}
-
 	if (!$is_page || !is_home()) {
+		// Heading
 		$h = $is_singular ? 'h1' : 'h2';
 		echo '<' . $h . ' class="entry-title">';
 
@@ -65,35 +56,51 @@ foreach ($pcats as $c) {
 			echo '</a>';
 		echo '</' . $h . '>';
 
-		if ($is_post) {
-			echo '<div class="entry-meta">';
-			if ($is_sticky)
-				echo '<span class="primary label">' . _i('star', __('Featured', 'wp-atlatl')) . '</span> ';
-			foreach ($cats as $c) {
-				echo '<a class="secondary label" href="' . get_category_link($c['id']) . '" title="' . $c['desc'] . '">' . _i('cat', $c['name']) . '</a> ';
-			}
-			echo '<span class="separator">' . _x(' ', 'separator', 'wp-atlatl') . '</span>';
-			echo __('by', 'wp-atlatl') . ' ' . _i('user', get_the_author_posts_link());
-			echo '</div>';
-
-			<?php
-			$el = edit_post_link( __( 'Edit', 'bootstrap2' ), '<span class="edit-link">', '</span>' );
-			// todo : edit button
-			?>
-		}
+		// Post meta - at the top
+		if (!$is_page) atlatl_f6_post_meta( $post->ID );
 	}
 
-	?>
-	<div class="entry-content itemtext"><?php
+	// Content
+	if (is_search() || is_category() || is_archive()) {
+		?><div class="entry-summary itemtext"><?php
+		tha_entry_content_before();
+		the_excerpt();
+		tha_entry_content_after();
+		?></div><?php
+	} else {
+		?><div class="entry-content itemtext"><?php
 		tha_entry_content_before();
 		the_content();
 		tha_entry_content_after();
-	?></div>
-	<?php
+		?></div><?php
+	}
+
+	// page links
+	$pagi = atlatl_f6_link_pages();
+	if (!empty($pagi)) {
+		echo '<nav>' . $pagi . '</nav>';
+	}
+
+	// Post meta - at the bottom
+	if ($is_singular && (!$is_page && !is_home()))
+		atlatl_f6_post_meta( $post->ID, false );
+
+	// Pagination
+	if ($is_singular && !$is_page) {
+		$prev = get_previous_post_link('%link', '%title');
+		$next = get_next_post_link('%link', '%title');
+		if ($prev || $next) {
+			echo '<nav><ul class="pagination text-center">';
+			if ($prev) echo '<li class="pagination-previous">' . $prev . '</li>';
+			if ($next) echo '<li class="pagination-next">' . $next . '</li>';
+			echo '</ul></nav>';
+		}
+	}
 
 	tha_entry_bottom();
 	?>
 </article>
+
 <?php
 
-if (!is_last_post()) echo apply_filters( 'the_post_separator', '<hr class="separator-hr" />' );
+if (!is_last_post()) echo apply_filters( 'the_post_separator', '<hr class="soft">' );

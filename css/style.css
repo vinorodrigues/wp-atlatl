@@ -39,4 +39,12 @@ main figure {
   visibility: hidden;
 }
 
+.uico {
+  font-size: 70%;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1rem;
+  margin: 0 0.25rem;
+}
+
 /*# sourceMappingURL=style.css.map */
