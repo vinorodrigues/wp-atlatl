@@ -44,7 +44,7 @@ foreach ($pcats as $c) {
 	<?php
 	tha_entry_top();
 
-	if (!$is_page || !is_home()) {
+	if (!$is_page || !is_front_page()) {
 		// Heading
 		$h = $is_singular ? 'h1' : 'h2';
 		echo '<' . $h . ' class="entry-title">';

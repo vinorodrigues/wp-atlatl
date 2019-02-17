@@ -4,7 +4,7 @@ get_header();
 
 tha_entry_before();
 
-get_template_part( 'on/' . THEME_ENGINE . '/content', 'search' );
+get_template_part( 'on/' . THEME_ENGINE . '/content', 'none' );
 
 tha_entry_after();
 

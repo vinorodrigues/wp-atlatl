@@ -1,30 +1,7 @@
 <?php
 
-// define( 'POST_THUMBNAIL_X', 200);
-// define( 'POST_THUMBNAIL_Y', 200);
-// define( 'FEATURED_IMAGE_X', 1170);
-// define( 'FEATURED_IMAGE_Y', 200);
-
-define( 'MAX_TITLE_LINK_LENGTH', 30 );
-
-// Customise the footer in admin area
-function atlatl_admin_footer_text () {
-	echo 'WP-Altatl theme designed and developed by' .
-		' <a href="//github.com/vinorodrigues" target="_blank">Vino Rodrigues</a>' .
-		' and powered by <a href="//wordpress.org" target="_blank">WordPress</a>.';
-}
-
-add_filter('admin_footer_text', 'atlatl_admin_footer_text');
-
-
 // ----------------------------------------------------------------------------
 // Defines, includes & globals
-
-if ( !defined('THEME_PATH') )
-	define('THEME_PATH', dirname(__FILE__).'/');
-
-if ( !defined('DOTMIN') )
-	define('DOTMIN', (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min');
 
 include_once( get_theme_file_path('config.php') );
 
@@ -33,14 +10,83 @@ if (!defined('THEME_ENGINE'))
 if (!defined('ICON_ENGINE'))
 	define( 'ICON_ENGINE', 'foundation-icons3' );
 
-include_once( 'lib/tha-theme-hooks.php' );
-include_once( 'lib/lib-ts/raw-scripts.php' );
-include_once( 'lib/lib-ts/raw-styles.php' );
-include_once( 'on/' . THEME_ENGINE . '/functions.php' );
-include_once( 'font/' . ICON_ENGINE . '/functions.php' );
-include_once( 'inc/customizer.php' );
-if (defined('WP_DEBUG') && WP_DEBUG && file_exists(get_template_directory().'/inc/~debug.php'))
-	include_once( 'inc/~debug.php' );
+if ( !defined('THEME_PATH') )
+	// define('THEME_PATH', dirname(__FILE__).'/');
+	define('THEME_PATH', trailingslashit(get_template_directory()));
+
+if ( !defined('DOTMIN') )
+	define('DOTMIN', (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min');
+
+// define( 'POST_THUMBNAIL_X', 200);
+// define( 'POST_THUMBNAIL_Y', 200);
+// define( 'FEATURED_IMAGE_X', 1170);
+// define( 'FEATURED_IMAGE_Y', 200);
+
+define( 'MAX_TITLE_LINK_LENGTH', 30 );
+
+include_once( THEME_PATH . 'lib/tha-theme-hooks.php' );
+include_once( THEME_PATH . 'lib/lib-ts/raw-scripts.php' );
+include_once( THEME_PATH . 'lib/lib-ts/raw-styles.php' );
+include_once( THEME_PATH . 'on/' . THEME_ENGINE . '/functions.php' );
+include_once( THEME_PATH . 'font/' . ICON_ENGINE . '/functions.php' );
+include_once( THEME_PATH . 'inc/customizer.php' );
+include_once( THEME_PATH . 'lib/class-tgm-plugin-activation.php' );
+
+if (defined('WP_DEBUG') && WP_DEBUG && file_exists( THEME_PATH . 'inc/~debug.php' ))
+	include_once( THEME_PATH . 'inc/~debug.php' );
+
+// ----------------------------------------------------------------------------
+// ----- Admin -----
+
+// Customise the footer in admin area
+function atlatl_admin_footer_text() {
+	echo 'WP-Altatl theme designed and developed by' .
+		' <a href="//github.com/vinorodrigues" target="_blank">Vino Rodrigues</a>' .
+		' and powered by <a href="//wordpress.org" target="_blank">WordPress</a>.';
+}
+
+add_filter('admin_footer_text', 'atlatl_admin_footer_text');
+
+function atlatl_register_required_plugins() {
+	$plugins = array(
+		array(
+			'name'    => 'WPTS-Maintenance-Page',
+			'slug'    => 'wpts-maintenance-page',
+			'source'  => 'https://github.com/vinorodrigues/wpts-maintenance-page/archive/master.zip',
+			'version' => '1.0.0',
+			),
+		array(
+			'name'    => 'WPTS-Clean-and-Optimize',
+			'slug'    => 'wpts-clean-and-optimize',
+			'source'  => 'https://github.com/vinorodrigues/wpts-clean-and-optimize/archive/master.zip',
+			'version' => '0.0.02',
+			),
+		);
+
+	$config = array(
+		'id'           => 'wp-atlatl',
+		'default_path' => THEME_PATH . 'plugins',
+		'menu'         => 'tgmpa-install-plugins',
+		'parent_slug'  => 'themes.php',
+		'capability'   => 'edit_theme_options',
+		'has_notices'  => true,
+		'dismissable'  => true,
+		'dismiss_msg'  => '',
+		'is_automatic' => true,
+		'message'      => '',
+		);
+
+	tgmpa( $plugins, $config );
+}
+
+add_action( 'tgmpa_register', 'atlatl_register_required_plugins' );
+
+function atlatl_admin_init() {
+	if (function_exists('add_tecsmith_item'))
+		add_tecsmith_item( 'WP-Atlatl Theme', 'wp-atlatl' );
+}
+
+add_action( 'admin_init', 'atlatl_admin_init' );
 
 // ----------------------------------------------------------------------------
 // ----- Icons -----
