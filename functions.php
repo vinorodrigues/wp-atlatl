@@ -50,16 +50,21 @@ add_filter('admin_footer_text', 'atlatl_admin_footer_text');
 function atlatl_register_required_plugins() {
 	$plugins = array(
 		array(
-			'name'    => 'WPTS-Maintenance-Page',
-			'slug'    => 'wpts-maintenance-page',
-			'source'  => 'https://github.com/vinorodrigues/wpts-maintenance-page/archive/master.zip',
-			'version' => '1.0.0',
+			'name'     => 'Classic Editor',
+			'slug'     => 'classic-editor',
+			'required' => false,
 			),
 		array(
-			'name'    => 'WPTS-Clean-and-Optimize',
-			'slug'    => 'wpts-clean-and-optimize',
-			'source'  => 'https://github.com/vinorodrigues/wpts-clean-and-optimize/archive/master.zip',
-			'version' => '0.0.02',
+			'name'     => 'TS Maintenance Page',
+			'slug'     => 'wpts-maintenance-page',
+			'source'   => 'https://github.com/vinorodrigues/wpts-maintenance-page/archive/master.zip',
+			'version'  => '1.0.0',
+			),
+		array(
+			'name'     => 'TS Clean and Optimize',
+			'slug'     => 'wpts-clean-and-optimize',
+			'source'   => 'https://github.com/vinorodrigues/wpts-clean-and-optimize/archive/master.zip',
+			'version'  => '0.0.02',
 			),
 		);
 
@@ -67,13 +72,13 @@ function atlatl_register_required_plugins() {
 		'id'           => 'wp-atlatl',
 		'default_path' => THEME_PATH . 'plugins',
 		'menu'         => 'tgmpa-install-plugins',
-		'parent_slug'  => 'themes.php',
-		'capability'   => 'edit_theme_options',
+		// 'parent_slug'  => 'themes.php',
+		// 'capability'   => 'edit_theme_options',
 		'has_notices'  => true,
 		'dismissable'  => true,
-		'dismiss_msg'  => '',
-		'is_automatic' => true,
-		'message'      => '',
+		// 'dismiss_msg'  => '',
+		// 'is_automatic' => true,
+		// 'message'      => '',
 		);
 
 	tgmpa( $plugins, $config );

@@ -41,7 +41,7 @@ function __get_f6_header_branding($hpos = '') {
 
 		$desc = get_bloginfo( 'description', 'display' );
 		if ( $desc || is_customize_preview() ) {
-			$out .= '<p class="site-description' . $class . '">' . $desc . '</p>';
+			$out .= '<p class="site-description">' . $desc . '</p>';
 		}
 	}
 
